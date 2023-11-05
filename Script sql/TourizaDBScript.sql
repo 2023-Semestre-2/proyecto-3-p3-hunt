@@ -1,3 +1,4 @@
+
 use touriza;
 
 create table if not exists user (
@@ -55,6 +56,7 @@ create table if not exists amenities (
     hasGreatView boolean not null,
     isAccessible boolean not null,
     isPetFriendly boolean not null,
+    isFree boolean not null,
     primary key (idAmenity),
     foreign key (idTour) references tour (idTour)
 );

@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
+import CrearTour from './pages/CrearTour';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
           <Route path="/" element={user?<Home/>:<Login onLogin={handleLogin} />} />
           <Route path='/Home' element={<Home />} /> 
+          <Route path='/CrearTour' element={<CrearTour />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login onLogin={handleLogin} />} />    
       </Routes>
