@@ -14,7 +14,7 @@ function LocationPicker() {
     });
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyBJsDLaIChZoMPlQVWT-Eh-sc1aZ6m5OCQ"
+    googleMapsApiKey: "volver a poner api"
   })
 
   const [map, setMap] = React.useState(null)
