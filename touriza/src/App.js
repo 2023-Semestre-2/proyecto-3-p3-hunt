@@ -12,6 +12,7 @@ function App() {
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
+
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user));
   }, [user]);
@@ -30,7 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar user={user} />
+      <NavBar user={user} logout={logout} />
       <Routes>
           <Route path="/" element={user?<Home/>:<Login onLogin={handleLogin} />} />
           <Route path='/Home' element={<Home  user={user}/>} /> 

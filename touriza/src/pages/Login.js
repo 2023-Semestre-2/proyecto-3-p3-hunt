@@ -28,7 +28,9 @@ function Login(props) {
             .then((data) => {
                     console.log(data);
                     if (data.code === 200) {
-                        props.onLogin({idUser: data.user.idUser, email:data.user.email});
+                        let user = data.user;
+                        delete user.password;
+                        props.onLogin(user);
 
                         
                         navigate("/Home");

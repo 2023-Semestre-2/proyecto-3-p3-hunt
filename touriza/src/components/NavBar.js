@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 
 
-function NavBar({user}) {
+function NavBar({user, logout}) {
     
-
+        const navigate = useNavigate();
     
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,6 +21,7 @@ function NavBar({user}) {
                                 <NavLink to="/Home" className="nav-link">Home</NavLink>
                                 <NavLink to="/Profile" className="nav-link">Profile {user.email} </NavLink>
                                 <NavLink to="/CrearTour" className="nav-link">Crear Tour</NavLink>
+                                <button onClick={() => {logout(); navigate("/");}}>Logout</button>
                                 </>
                             ) : (
                                 <>

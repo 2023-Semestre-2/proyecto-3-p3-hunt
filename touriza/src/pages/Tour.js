@@ -2,15 +2,23 @@ import React, {useState, useEffect} from "react";
 import { useLocation } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { GoogleMap, Marker, useLoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 import LocationShower from "../components/LocationShower";
 function Tour() {
 
     const location = useLocation();
     const tour = location.state.tour;
-    const [images, setImages] = React.useState([]);
-    const [contact, setContact] = React.useState([]);
-    const [locationTour, setLocationTour] = React.useState([]);
+
+    const [images, setImages] = useState([]);
+    const [contact, setContact] = useState([]);
+    const [locationTour, setLocationTour] = useState([]);
+    const [comments, setComments] = useState([]);
+
+    const [commentForm, setCommentForm] = useState({
+        idUser: JSON.parse(localStorage.getItem('user')).idUser,
+        idTour: tour.idTour,
+        stars: 0,
+        comment: "",
+    });
 
 
     useEffect(() => {
@@ -56,8 +64,66 @@ function Tour() {
             console.log(err);
         });
 
+        getComments();
+
+
+
     }, []);
 
+
+    function getComments() {
+        fetch(`http://localhost:3000/getCommentsTour/${tour.idTour}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            setComments(data.comments);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+
+    useEffect(() => {
+        console.log("Nuevo comentario");
+    }, [comments]);
+
+    function handleChangeComment(e) {
+        const { name, value } = e.target;
+        setCommentForm({ ...commentForm, [name]: value });
+    }
+
+    function postComment(e) {
+        e.preventDefault();
+        console.log("Comment");
+        console.log(commentForm);
+        fetch("http://localhost:3000/postComment", {
+            method: "POST",
+            body: JSON.stringify(commentForm),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                    console.log(data);
+                    if (data.code === 200) {
+                        console.log(data.message);
+                        getComments();
+                    } else {
+                        console.log(data.message);
+                    }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     useEffect(() => {
         console.log(locationTour);
@@ -109,6 +175,54 @@ function Tour() {
                 <p>{contact.website}</p>
 
             </aside>
+
+            <section className="newComment" key={tour.idTour} style={{border:'1px solid #000'}}>
+                <h2>Comentar</h2>
+                <form onSubmit={postComment} >
+                    <p>{JSON.parse(localStorage.getItem('user')).name}</p>
+                    <img 
+                        style={{width:'70px'}}
+                        src={`${process.env.PUBLIC_URL}/uploads/pfp/${JSON.parse(localStorage.getItem('user')).profilePicture}`} 
+                        alt={JSON.parse(localStorage.getItem('user')).name} 
+                    />
+                    <div className="form-group">
+                        <label htmlFor="stars">Estrellas</label>
+                        <input type="number" 
+                        className="form-control" 
+                        id="stars" 
+                        name="stars"
+                        min="0"
+                        max="5"
+                        onChange={handleChangeComment}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="comment">Comentario</label>
+                        <textarea className="form-control" 
+                        id="comment" 
+                        name="comment"
+                        rows="3"
+                        onChange={handleChangeComment}
+                        ></textarea>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Enviar</button>
+                </form>
+            </section>
+            <section className="comments" key={tour.idTour} style={{border:'1px solid #000'}}>
+                <h2>Comentarios</h2>
+                {comments.map((comment) => (
+                    <article className="comment" key={comment.idComment} style={{border:'1px solid #000'}}>
+                        <p>{comment.name}</p>
+                        <img 
+                            style={{width:'70px'}}
+                            src={`${process.env.PUBLIC_URL}/uploads/pfp/${comment.profilePicture}`} 
+                            alt={comment.name} 
+                        />
+                        <p>{comment.stars}</p>
+                        <p>{comment.comment}</p>
+                    </article>
+                ))}
+            </section>
 
         </div>
     );

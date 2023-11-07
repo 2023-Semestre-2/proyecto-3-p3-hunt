@@ -291,6 +291,36 @@ app.get('/getLocationTour/:idTour', async (req, res) => {
   });
 });
 
+app.get('/getCommentsTour/:idTour', async (req, res) => {
+  const { idTour } = req.params;
+  const sqlSelect = 'SELECT C.idComment, C.idTour, C.idUser, C.comment, C.stars, U.name, U.lastName, U.profilePicture FROM comment C INNER JOIN user U ON C.idUser = U.idUser WHERE C.idTour = ?';
+  connection.query(sqlSelect, [idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting comments' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Comments retrieved', comments: result });
+    }
+  });
+});
+
+
+app.post('/postComment', async (req, res) => {
+  const { idTour, idUser, comment, stars } = req.body;
+  const sqlInsert =
+    'INSERT INTO comment (idTour, idUser, comment, stars) VALUES (?,?,?,?)';
+  connection.query(sqlInsert, [idTour, idUser, comment, stars], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error posting comment' });
+    } else {
+      res.status(200).json({ code:200, message: 'Comment posted' });
+    }
+  });
+});
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
