@@ -19,7 +19,7 @@ function NavBar({user}) {
                             {user ? (
                                 <>
                                 <NavLink to="/Home" className="nav-link">Home</NavLink>
-                                <NavLink to="/Profile" className="nav-link">Profile</NavLink>
+                                <NavLink to="/Profile" className="nav-link">Profile {user.email} </NavLink>
                                 <NavLink to="/CrearTour" className="nav-link">Crear Tour</NavLink>
                                 </>
                             ) : (

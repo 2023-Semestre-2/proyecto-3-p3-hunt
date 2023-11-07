@@ -15,10 +15,12 @@ create table if not exists user (
 
 create table if not exists contact (
     idContact int not null auto_increment,
+    idTour int not null unique,
     email varchar(45) not null,
     phone int not null,
     webPage varchar(100) not null,
-    primary key (idContact)
+    primary key (idContact),
+    foreign key (idTour) references tour (idTour)
 );
 
 create table if not exists tour (
@@ -29,14 +31,16 @@ create table if not exists tour (
     isFree boolean not null,
     stars int not null,
     idContact int not null,
+    idLocation int not null,
+    idAmenity int not null,
     primary key (idTour),
     foreign key (idUser) references user (idUser),
-    foreign key (idContact) references contact (idContact)
+
 );
 
 create table if not exists amenities (
     idAmenity int not null auto_increment,
-    idTour int not null,
+    idTour int not null unique,
     isHotel boolean not null,
     isRestaurant boolean not null,
     isRiver boolean not null,
@@ -63,8 +67,9 @@ create table if not exists amenities (
 
 create table if not exists location (
     idLocation int not null auto_increment,
-    idTour int not null,
-    googleMapsUrl varchar(500) not null,
+    idTour int not null unique,
+    lat double not null,
+    lon double not null,
     address varchar(45) not null,
     primary key (idLocation),
     foreign key (idTour) references tour (idTour)

@@ -6,6 +6,7 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const e = require('express');
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,11 @@ app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, '../touriza/public/uploads/pfp');
+    if(req.url === '/register'){
+      cb(null, '../touriza/public/uploads/pfp');
+    }else if(req.url === '/createTour'){
+      cb(null, '../touriza/public/uploads/tours');
+    }
   },
   filename: function(req, file, cb) {
     cb(null, uuidv4()+'.jpg');
@@ -103,7 +108,104 @@ app.post('/register', upload.single('profilePicUpload'),async (req, res) => {
 });
 
 
+//crear un nuevo tour
+//idUser, name, description, stars
 
+app.post('/createTour', upload.array('images'), async (req, res) => {
+  console.log(req.body, req.files);
+
+
+  const { idUser, name, description, stars } = req.body;
+  const sqlInsert =
+    'INSERT INTO tour (idUser, name, description, stars) VALUES (?,?,?,?)';
+  connection.query(
+    sqlInsert,
+    [idUser, name, description, stars],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).json({ code:400, message: 'Error creating tour' });
+      } else {
+        const idTour = result.insertId;
+        console.log("inserting images")
+        req.files.forEach(file => {
+          console.log(file);
+          const sqlInsertImage = 'INSERT INTO tourpicture (idTour, picture) VALUES (?,?)';
+          connection.query(
+            sqlInsertImage,
+            [idTour, file.filename],
+            (err, result) => {
+              if (err) {
+                console.log(err);
+              }else{
+                console.log('image inserted');
+              }
+            }
+          );
+        });
+        res.status(200).json({ code:200, message: 'Tour created', idTour: idTour });
+      }
+    }
+  );
+});
+
+app.post('/createContact', async (req, res) => {
+  const {idTour, email, phone, website } = req.body;
+  const sqlInsert =
+    'INSERT INTO contact (idTour, email, phone, website) VALUES (?,?,?,?)';
+  connection.query(sqlInsert, [idTour, email, phone, website], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error creating contact' });
+    } else {
+      res.status(200).json({ code:200, message: 'Contact created' });
+    }
+  });
+});
+
+app.post('/createLocation', async (req, res) => {
+  const {idTour, address, lat, lng } = req.body;
+  const sqlInsert =
+    'INSERT INTO location (idTour, address, lat, lng) VALUES (?,?,?,?)';
+  connection.query(sqlInsert, [idTour, address, lat, lng], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error creating location' });
+    } else {
+      res.status(200).json({ code:200, message: 'Location created' });
+    }
+  });
+});
+
+app.post('/createAmenities', async (req, res) => {
+  
+  const {idTour, isHotel, isRestaurant, isRiver, 
+    isBeach, isMountain, hasRanch, 
+    hasPool, hasBreakfast, hasBar, 
+    hasWifi, hasFireplace, hasParking, 
+    hasAirConditioner, hasGym, hasSpa, 
+    hasRoomService, hasGreatView, isAccessible, 
+    isPetFriendly, isFree
+  } = req.body;
+
+  const sqlInsert =
+    'INSERT INTO amenities (idTour,isHotel, isRestaurant, isRiver, isBeach, isMountain,'+
+      'hasRanch, hasPool, hasBreakfast, hasBar, hasWifi, hasFireplace, hasParking,'+
+      'hasAirConditioner, hasGym, hasSpa, hasRoomService, hasGreatView, isAccessible,'+
+      'isPetFriendly, isFree) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  connection.query(sqlInsert, [idTour, isHotel, isRestaurant, isRiver,
+    isBeach, isMountain, hasRanch, hasPool, hasBreakfast, hasBar,
+    hasWifi, hasFireplace, hasParking, hasAirConditioner, hasGym, hasSpa,
+    hasRoomService, hasGreatView, isAccessible, isPetFriendly, isFree], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error creating amenities' });
+    } else {
+      res.status(200).json({ code:200, message: 'Amenities created' });
+    }
+  });
+});
+  
 
 
 const PORT = 3000;

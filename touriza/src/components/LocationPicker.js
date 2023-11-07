@@ -1,39 +1,61 @@
-import React from 'react'
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import React, { useEffect } from 'react'
+import { GoogleMap, Marker, useLoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '800px',
   height: '400px'
 };
 
+const libraries = ["places"];
 
-function LocationPicker() {
-    const [center, setCenter] = React.useState({
-        lat: 0,
-        lng: 0
-    });
-  const { isLoaded } = useJsApiLoader({
+function LocationPicker( props) {
+  console.log(props)
+  const { isLoaded, loadError } = useLoadScript({
     id: 'google-map-script',
-    googleMapsApiKey: "volver a poner api"
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries
   })
 
   const [map, setMap] = React.useState(null)
+  const [marker, setMarker] = React.useState(null);
+  const [searchBox, setSearchBox] = React.useState(null);
+
+
+  const onMapClick = React.useCallback((event) => {
+    console.log(event.latLng.lat());
+    console.log(event.latLng.lng());
+    
+    setMarker({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    });
+    
+  }, []);
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(function(position) {
-        setCenter({
+        setMarker({
             lat: position.coords.latitude,
             lng: position.coords.longitude
         });
       });
   }
 
+  const onPlacesChanged = () => {
+    const places = searchBox.getPlaces();
+    if (places.length === 0) return;
+
+    const place = places[0];
+    setMarker({
+      lat: place.geometry.location.lat(),
+      lng: place.geometry.location.lng(),
+    });
+  };
 
   const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
     getCurrentLocation();
+    const bounds = new window.google.maps.LatLngBounds(marker);
+    map.fitBounds(bounds);
     setMap(map)
   }, [])
 
@@ -41,29 +63,29 @@ function LocationPicker() {
     setMap(null)
   }, [])
 
+  useEffect(() => {
+    if (marker) {
+      props.setCoords(marker);
+    }
+  }, [marker])
+
   return isLoaded ? (
-    
+    <div>
+      <StandaloneSearchBox onLoad={ref => setSearchBox(ref)} onPlacesChanged={onPlacesChanged}>
+        <input type="text" placeholder="Search location" />
+      </StandaloneSearchBox>
       <GoogleMap
-        mapContainerStyle={containerStyle}
-        //get current location
-        center={center}
-        zoom={10}
+        mapContainerStyle={{ width: '800px', height: '400px' }}
+        zoom={15}
+        center={marker}
+        onClick={onMapClick}
         onLoad={onLoad}
         onUnmount={onUnmount}
-        onClick={(e) => {
-            console.log(e.latLng.lat());
-            console.log(e.latLng.lng());
-            setCenter({
-                lat: e.latLng.lat(),
-                lng: e.latLng.lng()
-            });
-        }
 
-        }
       >
-        <Marker position={center} />
-        <></>
+        {marker && <Marker position={marker} />}
       </GoogleMap>
+    </div>
   ) : <></>
 }
 
