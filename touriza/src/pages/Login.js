@@ -29,6 +29,8 @@ function Login(props) {
                     console.log(data);
                     if (data.code === 200) {
                         props.onLogin({idUser: data.user.idUser, email:data.user.email});
+
+                        
                         navigate("/Home");
                     } else {
                         console.log(data.message);

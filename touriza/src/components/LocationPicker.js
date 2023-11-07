@@ -30,7 +30,7 @@ function LocationPicker( props) {
       lng: event.latLng.lng(),
     });
     
-  }, []);
+  }, [marker]);
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(function(position) {

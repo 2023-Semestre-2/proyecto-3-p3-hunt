@@ -207,6 +207,89 @@ app.post('/createAmenities', async (req, res) => {
 });
   
 
+app.get('/getToursPreviews', async (req, res) => {
+  const sqlSelect = 'SELECT * FROM tour';
+  connection.query(sqlSelect, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting tours' });
+    } else {
+      tours = result;
+      let tourPromises = tours.map(tour => {
+        return new Promise((resolve, reject) => {
+          const sqlSelectImages = 'SELECT picture FROM tourpicture WHERE idTour = ? LIMIT 1';
+          connection.query(sqlSelectImages, [tour.idTour], (err, result) => {
+            if (err) {
+              console.log(err);
+              reject(err);
+            } else {
+              console.log(result);
+              tour.image = result[0].picture;
+              resolve(tour);
+            }
+          });
+        });
+      });
+ 
+      Promise.all(tourPromises)
+        .then(toursWithImages => {
+          res.status(200).json({ code:200, message: 'Tours retrieved', tours: toursWithImages });
+        })
+        .catch(err => {
+          // handle error
+          console.log(err);
+          res.status(500).json({ code:500, message: 'An error occurred' });
+        });
+
+
+
+      console.log(result);
+    }
+  });
+});
+
+app.get('/getImagesTour/:idTour', async (req, res) => {
+  const { idTour } = req.params;
+  const sqlSelect = 'SELECT picture FROM tourpicture WHERE idTour = ?';
+  connection.query(sqlSelect, [idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting images' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Images retrieved', images: result });
+    }
+  });
+});
+
+app.get('/getContactTour/:idTour', async (req, res) => {
+  const { idTour } = req.params;
+  const sqlSelect = 'SELECT * FROM contact WHERE idTour = ?';
+  connection.query(sqlSelect, [idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting contact' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Contact retrieved', contact: result[0] });
+    }
+  });
+});
+
+
+app.get('/getLocationTour/:idTour', async (req, res) => {
+  const { idTour } = req.params;
+  const sqlSelect = 'SELECT * FROM location WHERE idTour = ?';
+  connection.query(sqlSelect, [idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting location' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Location retrieved', location: result[0] });
+    }
+  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
