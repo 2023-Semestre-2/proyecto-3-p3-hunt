@@ -99,9 +99,9 @@ app.post('/register', upload.single('profilePicUpload'),async (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(400).json({ message: 'Email already in use' });
+        res.status(400).json({code:400, message: 'Email already in use' });
       } else {
-        res.status(200).json({ message: 'User registered' });
+        res.status(200).json({code:200, message: 'User registered' });
       }
     }
   );
@@ -240,9 +240,45 @@ app.get('/getToursPreviews', async (req, res) => {
           console.log(err);
           res.status(500).json({ code:500, message: 'An error occurred' });
         });
+      console.log(result);
+    }
+  });
+});
 
 
-
+app.get('/getToursPreviewsFav', async (req, res) => {
+  const sqlSelect = 'SELECT * FROM tour INNER JOIN favorite ON tour.idTour = favorite.idTour';
+  connection.query(sqlSelect, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting tours' });
+    } else {
+      tours = result;
+      let tourPromises = tours.map(tour => {
+        return new Promise((resolve, reject) => {
+          const sqlSelectImages = 'SELECT picture FROM tourpicture WHERE idTour = ? LIMIT 1';
+          connection.query(sqlSelectImages, [tour.idTour], (err, result) => {
+            if (err) {
+              console.log(err);
+              reject(err);
+            } else {
+              console.log(result);
+              tour.image = result[0].picture;
+              resolve(tour);
+            }
+          });
+        });
+      });
+ 
+      Promise.all(tourPromises)
+        .then(toursWithImages => {
+          res.status(200).json({ code:200, message: 'Tours retrieved', tours: toursWithImages });
+        })
+        .catch(err => {
+          // handle error
+          console.log(err);
+          res.status(500).json({ code:500, message: 'An error occurred' });
+        });
       console.log(result);
     }
   });
@@ -293,7 +329,7 @@ app.get('/getLocationTour/:idTour', async (req, res) => {
 
 app.get('/getCommentsTour/:idTour', async (req, res) => {
   const { idTour } = req.params;
-  const sqlSelect = 'SELECT C.idComment, C.idTour, C.idUser, C.comment, C.stars, U.name, U.lastName, U.profilePicture FROM comment C INNER JOIN user U ON C.idUser = U.idUser WHERE C.idTour = ?';
+  const sqlSelect = 'SELECT C.idComment, C.idTour, C.idUser, C.comment, C.stars, U.name, U.lastName, U.profilePicture, C.postDate FROM comment C INNER JOIN user U ON C.idUser = U.idUser WHERE C.idTour = ?';
   connection.query(sqlSelect, [idTour], (err, result) => {
     if (err) {
       console.log(err);
@@ -305,6 +341,19 @@ app.get('/getCommentsTour/:idTour', async (req, res) => {
   });
 });
 
+app.get('/getAmenitiesTour/:idTour', async (req, res) => {
+  const { idTour } = req.params;
+  const sqlSelect = 'SELECT * FROM amenities WHERE idTour = ?';
+  connection.query(sqlSelect, [idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error getting amenities' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Amenities retrieved', amenities: result[0] });
+    }
+  });
+});
 
 app.post('/postComment', async (req, res) => {
   const { idTour, idUser, comment, stars } = req.body;
@@ -316,6 +365,20 @@ app.post('/postComment', async (req, res) => {
       res.status(400).json({ code:400, message: 'Error posting comment' });
     } else {
       res.status(200).json({ code:200, message: 'Comment posted' });
+    }
+  });
+});
+
+app.post('/addToFav', async (req, res) => {
+  const { idTour, idUser } = req.body;
+  const sqlInsert =
+    'INSERT INTO favorite (idTour, idUser) VALUES (?,?)';
+  connection.query(sqlInsert, [idTour, idUser], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400, message: 'Error adding to favorites' });
+    } else {
+      res.status(200).json({ code:200, message: 'Added to favorites' });
     }
   });
 });

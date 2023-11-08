@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Register() {
-    
+    const navigate = useNavigate();
+
     const [formValues, setFormValues] = useState({
         profilePic: "",
         name: "",
@@ -37,9 +39,6 @@ function Register() {
             formData.append('phone', formValues.phone);
             formData.append('password', formValues.password);
             formData.append('password2', formValues.password2);
-
-            // Append the image file to formData
-            // 'profilePic' should match the name you're using in multer's upload.single() middleware
             formData.append('profilePicUpload', formValues.profilePic);
 
             fetch("http://localhost:3000/register", {
@@ -49,6 +48,9 @@ function Register() {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                if(data.code === 200){
+                    navigate("/Login");
+                }
             });
         }
     }

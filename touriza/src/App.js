@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import CrearTour from './pages/CrearTour';
 import Tour from './pages/Tour';
+import Favourites from './pages/Favourites';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
       <Routes>
           <Route path="/" element={user?<Home/>:<Login onLogin={handleLogin} />} />
           <Route path='/Home' element={<Home  user={user}/>} /> 
+          <Route path='/Favourites' element={<Favourites user={user} />} />
           <Route path='/CrearTour' element={<CrearTour user={user} />} />
           <Route path="/Tour/:idTour" element={<Tour user={user}  />} />
           <Route path="register" element={<Register />} />

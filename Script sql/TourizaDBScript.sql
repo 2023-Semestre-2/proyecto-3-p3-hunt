@@ -89,6 +89,7 @@ create table if not exists comment (
     idTour int not null,
     comment varchar(500) not null,
     stars int not null,
+    postDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (idComment),
     foreign key (idUser) references user (idUser),
     foreign key (idTour) references tour (idTour)

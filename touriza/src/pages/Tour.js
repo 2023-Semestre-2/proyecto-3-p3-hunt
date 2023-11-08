@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LocationShower from "../components/LocationShower";
+import { parseISO, format } from 'date-fns';
+
 function Tour() {
 
     const location = useLocation();
@@ -12,6 +14,7 @@ function Tour() {
     const [contact, setContact] = useState([]);
     const [locationTour, setLocationTour] = useState([]);
     const [comments, setComments] = useState([]);
+    const [amenities, setAmenities] = useState([]);
 
     const [commentForm, setCommentForm] = useState({
         idUser: JSON.parse(localStorage.getItem('user')).idUser,
@@ -59,6 +62,21 @@ function Tour() {
         .then((data) => {
             console.log(data);
             setLocationTour(data.location);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+        fetch(`http://localhost:3000/getAmenitiesTour/${tour.idTour}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data.amenities);
+            setAmenities(data.amenities);
         })
         .catch((err) => {
             console.log(err);
@@ -115,6 +133,12 @@ function Tour() {
                     if (data.code === 200) {
                         console.log(data.message);
                         getComments();
+                        setCommentForm({
+                            idUser: commentForm.idUser,
+                            idTour: commentForm.idTour,
+                            stars: 0,
+                            comment: "",
+                        });
                     } else {
                         console.log(data.message);
                     }
@@ -130,11 +154,42 @@ function Tour() {
     }
     , [locationTour]);
 
+
+    function addToFav() {
+        console.log("Favorito");
+        console.log(JSON.parse(localStorage.getItem('user')).idUser);
+        console.log(tour.idTour);
+        fetch("http://localhost:3000/addToFav", {
+            method: "POST",
+            body: JSON.stringify({
+                idUser: JSON.parse(localStorage.getItem('user')).idUser,
+                idTour: tour.idTour,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                    console.log(data);
+                    if (data.code === 200) {
+                        console.log(data.message);
+                    } else {
+                        console.log(data.message);
+                    }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
     return (
         <div>
             <h1>Tour</h1>
             <section className="tour" key={tour.idTour} style={{border:'1px solid #000'}}>
                 <h2>{tour.name}</h2>
+                <button type="button" className="btn btn-primary" onClick={addToFav} >Favorito</button>
                 {/** get image from public uploads tours */}
                 <Carousel 
                     showArrows={true}
@@ -146,7 +201,7 @@ function Tour() {
                     emulateTouch={true}
                     selectedItem={0}
                     transitionTime={1000}
-                    swipeScrollTolerance={5}
+                    swipeScrollTolerance={15}
                     >
                     
                     {images.map((image) => (
@@ -175,7 +230,31 @@ function Tour() {
                 <p>{contact.website}</p>
 
             </aside>
+            <aside className="tags" key={tour.idTour} style={{border:'1px solid #000'}}>
+                <h2>Tags</h2>
+                
 
+                {Object.values(amenities)[2] ? <p>Hotel</p> : <p></p>}
+                {Object.values(amenities)[3] ? <p>Restaurante</p> : <p></p>}
+                {Object.values(amenities)[4] ? <p>Rio</p> : <p></p>}
+                {Object.values(amenities)[5] ? <p>Playa</p> : <p></p>}
+                {Object.values(amenities)[6] ? <p>Montaña</p> : <p></p>}
+                {Object.values(amenities)[7] ? <p>Rancho</p> : <p></p>}
+                {Object.values(amenities)[8] ? <p>Piscina</p> : <p></p>}
+                {Object.values(amenities)[9] ? <p>Desayuno incluido</p> : <p></p>}
+                {Object.values(amenities)[10] ? <p>Bar</p> : <p></p>}
+                {Object.values(amenities)[11] ? <p>Wifi</p> : <p></p>}
+                {Object.values(amenities)[12] ? <p>Fogata</p> : <p></p>}
+                {Object.values(amenities)[13] ? <p>Parqueo</p> : <p></p>}
+                {Object.values(amenities)[14] ? <p>Aire acondicionado</p> : <p></p>}
+                {Object.values(amenities)[15] ? <p>Gimnacio</p> : <p></p>}
+                {Object.values(amenities)[16] ? <p>Spa</p> : <p></p>}
+                {Object.values(amenities)[17] ? <p>Servicio al cuarto</p> : <p></p>}
+                {Object.values(amenities)[18] ? <p>Buena vista</p> : <p></p>}
+                {Object.values(amenities)[19] ? <p>Accesible</p> : <p></p>}
+                {Object.values(amenities)[20] ? <p>Se aceptan mascotas</p> : <p></p>}
+                {Object.values(amenities)[21] ? <p>Gratis</p> : <p></p>}
+            </aside>
             <section className="newComment" key={tour.idTour} style={{border:'1px solid #000'}}>
                 <h2>Comentar</h2>
                 <form onSubmit={postComment} >
@@ -193,6 +272,7 @@ function Tour() {
                         name="stars"
                         min="0"
                         max="5"
+                        value={commentForm.stars}
                         onChange={handleChangeComment}
                         />
                     </div>
@@ -202,6 +282,7 @@ function Tour() {
                         id="comment" 
                         name="comment"
                         rows="3"
+                        value={commentForm.comment}
                         onChange={handleChangeComment}
                         ></textarea>
                     </div>
@@ -210,7 +291,9 @@ function Tour() {
             </section>
             <section className="comments" key={tour.idTour} style={{border:'1px solid #000'}}>
                 <h2>Comentarios</h2>
-                {comments.map((comment) => (
+
+
+                {[...comments].reverse().map((comment) => (
                     <article className="comment" key={comment.idComment} style={{border:'1px solid #000'}}>
                         <p>{comment.name}</p>
                         <img 
@@ -220,6 +303,7 @@ function Tour() {
                         />
                         <p>{comment.stars}</p>
                         <p>{comment.comment}</p>
+                        <p>Posted on: {format(parseISO(comment.postDate), 'MM/dd/yyyy')}</p>
                     </article>
                 ))}
             </section>
