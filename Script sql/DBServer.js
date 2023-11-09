@@ -383,6 +383,44 @@ app.post('/addToFav', async (req, res) => {
   });
 });
 
+app.get('/getInfoProfile/:idUser', async (req, res) => {
+  const { idUser } = req.params;
+  const sqlSelect = 'SELECT '+
+                      'user.name, '+
+                      'user.lastName, '+
+                      'user.email, '+
+                      'user.phone, '+
+                      'user.profilePicture, '+
+                      '(SELECT COUNT(*) FROM tour WHERE tour.idUser = user.idUser) AS numberOfPosts, '+
+                      '(SELECT COUNT(*) FROM comment WHERE comment.idUser = user.idUser) AS numberOfComments, '+
+                      '(SELECT COUNT(*) FROM favorite WHERE favorite.idUser = user.idUser) AS numberOfFavorites '+
+                      'FROM '+
+                      'user WHERE user.idUser = ?';
+  connection.query(sqlSelect, [idUser], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400,  message: 'Error getting info' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Info retrieved', user: result[0] });
+    }
+  });
+});
+
+app.get('/getUser/:idUser', async (req, res) => {
+  const { idUser } = req.params;
+  const sqlSelect = 'SELECT * FROM user WHERE idUser = ?';
+  connection.query(sqlSelect, [idUser], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400,  message: 'Error getting info' });
+    } else {
+      console.log(result);
+      res.status(200).json({ code:200, message: 'Info retrieved', user: result[0] });
+    }
+  });
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

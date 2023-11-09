@@ -7,6 +7,8 @@ import NavBar from './components/NavBar';
 import CrearTour from './pages/CrearTour';
 import Tour from './pages/Tour';
 import Favourites from './pages/Favourites';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
           <Route path='/Home' element={<Home  user={user}/>} /> 
           <Route path='/Favourites' element={<Favourites user={user} />} />
           <Route path='/CrearTour' element={<CrearTour user={user} />} />
+          <Route path='/Profile/:idUser' element={<Profile/>} />
+          <Route path='/EditProfile' element={<EditProfile/>} />
           <Route path="/Tour/:idTour" element={<Tour user={user}  />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login onLogin={handleLogin} />} />    

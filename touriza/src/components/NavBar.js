@@ -19,7 +19,7 @@ function NavBar({user, logout}) {
                             {user ? (
                                 <>
                                 <NavLink to="/Home" className="nav-link">Home</NavLink>
-                                <NavLink to="/Profile" className="nav-link">Profile {user.email} </NavLink>
+                                <NavLink to={`/Profile/${user.idUser}`} className="nav-link">Profile</NavLink>
                                 <NavLink to="/CrearTour" className="nav-link">Crear Tour</NavLink>
                                 <NavLink to="/Favourites" className="nav-link">Favoritos</NavLink>
                                 <button onClick={() => {logout(); navigate("/");}}>Logout</button>

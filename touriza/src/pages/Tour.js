@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LocationShower from "../components/LocationShower";
 import { parseISO, format } from 'date-fns';
 
 function Tour() {
-
+    const navigate = useNavigate();
     const location = useLocation();
     const tour = location.state.tour;
 
@@ -184,6 +184,12 @@ function Tour() {
             });
     }
 
+    function goToProfile(idUser) {
+        console.log("Go to profile");
+        console.log(idUser);
+        navigate(`/Profile/${idUser}`);
+    }
+
     return (
         <div>
             <h1>Tour</h1>
@@ -300,6 +306,7 @@ function Tour() {
                             style={{width:'70px'}}
                             src={`${process.env.PUBLIC_URL}/uploads/pfp/${comment.profilePicture}`} 
                             alt={comment.name} 
+                            onClick={() => {goToProfile(comment.idUser)}}
                         />
                         <p>{comment.stars}</p>
                         <p>{comment.comment}</p>
