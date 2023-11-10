@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-
 function Register() {
     const navigate = useNavigate();
 
@@ -16,7 +15,9 @@ function Register() {
         password: "",
         password2: ""
     });
-    const [imagePreview, setImagePreview] = useState(null);
+    const [imagePreview, setImagePreview] = useState(
+        `${process.env.PUBLIC_URL}/user.png`
+    );
 
     const [formErrors, setFormErrors] = useState({});
 
@@ -109,61 +110,72 @@ function Register() {
 
     return (
         <section className="register">
-            <h1>Register</h1>
-            <form onSubmit={handelSubmit} >
+            <form className="form-a"  onSubmit={handelSubmit} >
+                <h1 id="register-title" >Registrarse</h1>
                 {/*image to upload a profile pic*/}
-                <div className="form-group">
-                    <label htmlFor="profilePic">Profile Picture</label>
-                    <img src={imagePreview} alt="profilePic" />
-                    <input
-                        type="file"
-                        className="form-control"
-                        id="profilePicUpload"
-                        name="profilePicUpload"
-                        onChange={handleChange}
-                    />
-                </div>
-                {/*name*/}
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        className={`form-control ${formErrors.name && "is-invalid"}`}
-                        id="name"
-                        name="name"
-                        placeholder="Enter name"
-                        value={formValues.name}
-                        onChange={(e) =>
-                            setFormValues({ ...formValues, name: e.target.value })
-                        }
-                    />
-                    <div className="invalid-feedback">{formErrors.name}</div>
-                </div>
-                {/*lastname*/}
-                <div className="form-group">
-                    <label htmlFor="lastname">Lastname</label>
-                    <input
-                        type="text"
-                        className={`form-control ${formErrors.lastname && "is-invalid"}`}
-                        id="lastname"
-                        name="lastname"
-                        placeholder="Enter lastname"
-                        value={formValues.lastname}
-                        onChange={(e) =>
-                            setFormValues({ ...formValues, lastname: e.target.value })
-                        }
-                    />
-                    <div className="invalid-feedback">{formErrors.lastname}</div>
+                <div className="row-2">
+                    <div className="form-group-a">
+                        <label
+                            className="profile-pic-upload"  
+                            htmlFor="profilePicUpload">
+                            <img
+                                className="profile-pic-upload" 
+                                src={imagePreview} 
+                                alt="Foto de perfil" />
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="profilePicUpload"
+                                name="profilePicUpload"
+                                onChange={handleChange}
+                                style={{ display: 'none' }}
+                            />
+                        </label>
+                    </div>
+                    {/*name*/}
+                    <div className="col">
+                        <div className="form-group-a">
+                            <label htmlFor="name">Nombre</label>
+                            <input
+                                type="text"
+                                className="input-2"
+                                id="name"
+                                name="name"
+                                placeholder="Ingresa tu nombre"
+                                value={formValues.name}
+                                onChange={(e) =>
+                                    setFormValues({ ...formValues, name: e.target.value })
+                                }
+                            />
+                            <div className="invalid-feedback">{formErrors.name}</div>
+                        </div>
+                        {/*lastname*/}
+                        <div className="form-group-a">
+                            <label htmlFor="lastname">Apellidos</label>
+                            <input
+                                type="text"
+                                className="input-2"
+                                id="lastname"
+                                name="lastname"
+                                placeholder="Ingresa tus apellidos"
+                                value={formValues.lastname}
+                                onChange={(e) =>
+                                    setFormValues({ ...formValues, lastname: e.target.value })
+                                }
+                            />
+                            <div className="invalid-feedback">{formErrors.lastname}</div>
+                        </div>
+                    </div>
                 </div>
                 {/*email*/}
-                <div className="form-group">
-                    <label htmlFor="email">Email address</label>
+                <div className="form-group-a">
+                    <label htmlFor="email">Correo electrónico</label>
                     <input
                         type="email"
                         className={`form-control ${formErrors.email && "is-invalid"}`}
                         id="email"
                         name="email"
-                        placeholder="Enter email"
+                        placeholder="Ingresa tu correo electrónico"
                         value={formValues.email}
                         onChange={(e) =>
                             setFormValues({ ...formValues, email: e.target.value })
@@ -172,14 +184,14 @@ function Register() {
                     <div className="invalid-feedback">{formErrors.email}</div>
                 </div>
                 {/*phone*/}
-                <div className="form-group">
-                    <label htmlFor="phone">Phone</label>
+                <div className="form-group-a">
+                    <label htmlFor="phone">Teléfono</label>
                     <input
                         type="text"
                         className={`form-control ${formErrors.phone && "is-invalid"}`}
                         id="phone"
                         name="phone"
-                        placeholder="Enter phone"
+                        placeholder="Ingresa tu teléfono"
                         value={formValues.phone}
                         onChange={(e) =>
                             setFormValues({ ...formValues, phone: e.target.value })
@@ -188,14 +200,14 @@ function Register() {
                     <div className="invalid-feedback">{formErrors.phone}</div>
                 </div>
                 {/*password*/}
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                <div className="form-group-a">
+                    <label htmlFor="password">Contraseña</label>
                     <input
                         type="password"
                         className={`form-control ${formErrors.password && "is-invalid"}`}
                         id="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Ingresa tu contraseña"
                         value={formValues.password}
                         onChange={(e) =>
                             setFormValues({ ...formValues, password: e.target.value })
@@ -204,14 +216,14 @@ function Register() {
                     <div className="invalid-feedback">{formErrors.password}</div>
                 </div>
                 {/*password2*/}
-                <div className="form-group">
-                    <label htmlFor="password2">Confirm Password</label>
+                <div className="form-group-a">
+                    <label htmlFor="password2">Confirmar contraseña</label>
                     <input
                         type="password"
                         className={`form-control ${formErrors.password2 && "is-invalid"}`}
                         id="password2"
                         name="password2"
-                        placeholder="Confirm Password"
+                        placeholder="Confirma tu contraseña"
                         value={formValues.password2}
                         onChange={(e) =>
                             setFormValues({ ...formValues, password2: e.target.value })
@@ -220,8 +232,9 @@ function Register() {
                     <div className="invalid-feedback">{formErrors.password2}</div>
                 </div>
                 <button type="submit" className="btn btn-primary">
-                    Register
+                    Registrarse
                 </button>
+                <p id='ya-cuenta' >¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
 
             </form>
         </section>

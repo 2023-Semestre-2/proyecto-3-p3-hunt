@@ -1,0 +1,237 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f2f2f2;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+.navbar {
+    background-color: #f2f2f2;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+}
+
+.navbar .navbar-brand {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar .nav-link {
+    color: #333;
+    text-decoration: none;
+}
+
+.navbar .nav-link.active {
+    color: #007bff;
+}
+
+.navbar button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+#login-btn, #register-btn {
+    height: 35px;
+    width: 150px;
+    border-radius: 0.5rem;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#login-btn{
+    background-color: #0066ff;
+    color: #fff;
+}
+
+#register-btn{
+    border: 1px solid #0066ff;
+    color: #333;
+}
+
+/* login */
+
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+
+
+.form-a {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding-top: 90px;
+    align-items: center;
+    border-radius: 0.5rem;
+    margin: 40px 0px; 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.login form{
+    width: 620px;
+    height: 750px;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+}
+
+.register form{
+    width: 760px;
+    height: 1110px;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+}
+
+.form-group-a {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.register .form-group-a{
+    margin-top: 20px;
+}
+
+.form-group-a label{
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+
+}
+
+.form-group-a input{ 
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    height: 40px;
+    width: 450px;
+}
+
+.register .form-group-a input{
+    width: 560px;
+}
+
+.register .form-group-a .input-2{ 
+    width: 350px;
+}
+
+.form-a button{
+    width: 484px;
+}
+
+.register .form-a button{
+    width: 594px;
+    margin-top: 30px;
+}
+
+.login #iniciar-sesion{
+    width: 100%;
+    font-size: 3rem;
+    font-weight: 500;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 450px;
+    border: 1px;
+}
+
+#register-title{
+    width: 100%;
+    font-size: 3rem;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #0069d9;
+}
+
+.btn-primary{
+    background-color: #0066ff;
+    color: #fff;
+    border: none;
+    height: 50px;
+    border-radius: 0.5rem;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+#no-cuenta{
+    width: 100%;
+    text-align: center;
+}
+
+.row-2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.col{
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.profile-pic-upload{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}

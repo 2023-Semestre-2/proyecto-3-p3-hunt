@@ -53,42 +53,44 @@ function Login(props) {
 
     return (
         <section className="login">
-            <div className="container">
-                <div className="row">
-                    <div className="col-12 col-md-6 mx-auto">
-                        <form className="my-4" onSubmit={handleSubmint} >
-                            <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-                            {/*email*/}
-                            <div className="form-group">
-                                <label htmlFor="email">Email address</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Enter email"
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            {/*password*/}
-                            <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary">
-                                Sign in
-                            </button>
-                        </form>
+                <form className="form-a" onSubmit={handleSubmint} >
+                    <h1 id="iniciar-sesion"  >Iniciar sesión</h1>
+                    {/*email*/}
+                    <div className="form-group-a">
+                        <label htmlFor="email">Correo electrónico</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Ingresa tu correo electrónico"
+                            onChange={handleChange}
+                        />
                     </div>
-                </div>
-            </div>
+                    {/*password*/}
+                    <div className="form-group-a">
+                        <label htmlFor="password">Contraseña</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Contraseña"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button 
+                        type="submit" 
+                        className="btn btn-primary"
+                        style={{margin: '60px 0 0 0'}}
+                        >
+                        Iniciar sesión
+                    </button>
+                    
+                    <p id='no-cuenta' >¿No tienes cuenta? <a href="/register">Regístrate</a></p>
+                    
+                </form>
+
         </section>
     );
     }

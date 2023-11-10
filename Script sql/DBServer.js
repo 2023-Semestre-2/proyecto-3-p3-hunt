@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const e = require('express');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -14,7 +15,7 @@ app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    if(req.url === '/register'){
+    if(req.url === '/register' || req.url === '/updateUser'){
       cb(null, '../touriza/public/uploads/pfp');
     }else if(req.url === '/createTour'){
       cb(null, '../touriza/public/uploads/tours');
@@ -417,6 +418,70 @@ app.get('/getUser/:idUser', async (req, res) => {
     } else {
       console.log(result);
       res.status(200).json({ code:200, message: 'Info retrieved', user: result[0] });
+    }
+  });
+});
+
+app.post('/updateUser', upload.single('profilePicUpload'), async (req, res) => {
+  console.log("updateUser");
+  console.log(req.body);
+  console.log(req.file);
+  let pfp = req.file;
+  if(pfp === undefined){
+    console.log("no pfp")
+    pfp = req.body.oldProfilePicture;
+  }else{
+    console.log("pfp")
+    pfp = req.file.filename;
+    fs.unlink('../touriza/public/uploads/pfp/'+req.body.oldProfilePicture, (err) => {
+      if (err) {
+        console.error('Error deleting old profile picture:', err);
+      }
+    });
+  }
+  const { idUser, name, lastName, phone, password, newPassword } = req.body;
+  const sqlSelect = 'SELECT * FROM user WHERE idUser = ?';
+  connection.query(sqlSelect, [idUser], async (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400,  message: 'Error getting info' });
+    } else {
+      console.log(result);
+      const user = result[0];
+      bcrypt.compare(password, user.password, async (err, response) => {
+        if (response) {
+          console.log('Password match');
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          if(req.file){
+            const sqlUpdate =
+              'UPDATE user SET name = ?, lastName = ?, phone = ?, password = ?, profilePicture = ? WHERE idUser = ?';
+            connection.query(sqlUpdate, [name, lastName, phone, hashedPassword, req.file.filename, idUser], (err, result) => {
+              if (err) {
+                console.log(err);
+                res.status(400).json({ code:400,  message: 'Error updating user' });
+              } else {
+                console.log(result);
+                res.status(200).json({ code:200, message: 'User updated' });
+              }
+            });
+          }else{
+            const sqlUpdate =
+              'UPDATE user SET name = ?, lastName = ?, phone = ?, password = ? WHERE idUser = ?';
+            connection.query(sqlUpdate, [name, lastName, phone, hashedPassword, idUser], (err, result) => {
+              if (err) {
+                console.log(err);
+                res.status(400).json({ code:400,  message: 'Error updating user' });
+              } else {
+                console.log(result);
+                res.status(200).json({ code:200, message: 'User updated' });
+              }
+            });
+          }
+        } else {
+          console.log('Wrong password');
+          res.status(400).json({ code:400,  message: 'Wrong password' });
+        }
+      });
     }
   });
 });
