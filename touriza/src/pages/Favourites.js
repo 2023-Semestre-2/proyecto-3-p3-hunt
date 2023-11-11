@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaStar, FaRegStar } from 'react-icons/fa';
 
 function Favourites() {
     const navigate = useNavigate();
@@ -25,26 +26,45 @@ function Favourites() {
     , []);
 
     return (
-        <div>
-            <h1>Home</h1>
+        <div className="Favourites-page" >
+            <h1 className="page-title" >Mis Favoritos</h1>
+            <div className="main-container">
             <section className="tours">
-                {tours.map((tour) => (
-                    <article className="tour" key={tour.idTour} style={{border:'1px solid #000'}} 
-                        onClick={() => { 
-                            navigate(`/Tour/${tour.idTour}`, { state: { tour } }); 
-                            }
-                        }>
-                        <h2>{tour.name}</h2>
-                        {/** get image from public uploads tours */}
-                        <img 
-                            style={{width:'100px'}}
-                            src={`${process.env.PUBLIC_URL}/uploads/tours/${tour.image}`} 
-                            alt={tour.name} />
-                        <p>{tour.description}</p>
-                        <p>{tour.stars}</p>
-                    </article>
-                ))}
-            </section>
+                    {tours.length > 0 ? (
+                        tours.map((tour) => (
+                        <article className="tour" key={tour.idTour}
+                            onClick={() => {
+                                navigate(`/Tour/${tour.idTour}`, { state: { tour } });
+                            }}>
+                            {/** get image from public uploads tours */}
+                            <img
+                                className="tour-img"
+                                src={`${process.env.PUBLIC_URL}/uploads/tours/${tour.image}`}
+                                alt={tour.name} />
+                            <div className="tour-info">
+                                <div className="tour-header">
+                                    <h2 className="tour-name">{tour.name}</h2>
+                                    <div className="tour-stars">
+                                        {[...Array(5)].map((star, index) => {
+                                            return index < tour.stars ? (
+                                                <FaStar key={index} className="star" />
+                                            ) : (
+                                                <FaRegStar key={index} className="reg-star" />
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                                <p className="tour-description">
+                                    {tour.description.length > 300 ? tour.description.substring(0, 300) + "..." : tour.description}
+                                </p>
+                            </div>
+                        </article>
+                    ))
+                    ) : (
+                        <h2 className="no-tours" >No se encontraron tours</h2>
+                    )}
+                </section>
+            </div>
         </div>
     );
     }

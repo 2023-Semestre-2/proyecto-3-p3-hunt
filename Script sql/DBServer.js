@@ -218,20 +218,40 @@ app.get('/getToursPreviews', async (req, res) => {
       tours = result;
       let tourPromises = tours.map(tour => {
         return new Promise((resolve, reject) => {
-          const sqlSelectImages = 'SELECT picture FROM tourpicture WHERE idTour = ? LIMIT 1';
-          connection.query(sqlSelectImages, [tour.idTour], (err, result) => {
-            if (err) {
-              console.log(err);
-              reject(err);
-            } else {
-              console.log(result);
-              tour.image = result[0].picture;
-              resolve(tour);
-            }
+          const imagePromise = new Promise((resolve, reject) => {
+            const sqlSelectImages = 'SELECT picture FROM tourpicture WHERE idTour = ? LIMIT 1';
+            connection.query(sqlSelectImages, [tour.idTour], (err, result) => {
+              if (err) {
+                console.log(err);
+                reject(err);
+              } else {
+                console.log(result);
+                tour.image = result[0].picture;
+                resolve();
+              }
+            });
           });
+
+          const amenitiesPromise = new Promise((resolve, reject) => {
+            const sqlSelectAmenities = 'SELECT * FROM amenities WHERE idTour = ?';
+            connection.query(sqlSelectAmenities, [tour.idTour], (err, result) => {
+              if (err) {
+                console.log(err);
+                reject(err);
+              } else {
+                console.log(result);
+                tour.amenities = result[0];
+                resolve();
+              }
+            });
+          });
+
+          Promise.all([imagePromise, amenitiesPromise])
+            .then(() => resolve(tour))
+            .catch(err => reject(err));
         });
       });
- 
+
       Promise.all(tourPromises)
         .then(toursWithImages => {
           res.status(200).json({ code:200, message: 'Tours retrieved', tours: toursWithImages });
@@ -245,6 +265,11 @@ app.get('/getToursPreviews', async (req, res) => {
     }
   });
 });
+      
+
+    
+
+
 
 
 app.get('/getToursPreviewsFav', async (req, res) => {
