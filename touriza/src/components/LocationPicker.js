@@ -72,10 +72,15 @@ function LocationPicker( props) {
   return isLoaded ? (
     <div>
       <StandaloneSearchBox onLoad={ref => setSearchBox(ref)} onPlacesChanged={onPlacesChanged}>
-        <input type="text" placeholder="Search location" />
+        <>
+        <label 
+          className='search-place-label'
+          htmlFor='search-place-input'>Nombre</label>
+        <input className='search-place-input' type="text" placeholder="Buscar lugar" />
+        </>
       </StandaloneSearchBox>
       <GoogleMap
-        mapContainerStyle={{ width: '800px', height: '400px' }}
+        mapContainerClassName='map'
         zoom={15}
         center={marker}
         onClick={onMapClick}
