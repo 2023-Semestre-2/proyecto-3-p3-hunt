@@ -292,7 +292,8 @@ code {
 
 
 .Home-page,
-.Favourites-page
+.Favourites-page,
+.Profile-page
 {
     display: flex;
     flex-direction: column;
@@ -463,7 +464,7 @@ code {
 .tour-description {
     width: 100%;
     height: 100%;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-top: 0.5rem;
 }
 
@@ -494,6 +495,8 @@ code {
     background-color: white;
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        bottom: 0;
 }
 
 .footer .footer-container{
@@ -817,4 +820,91 @@ code {
 .form-create-tour button[type="cancel"]:hover{
     background-color: #a50000;
     color: #fff;
+}
+
+.profile-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 0 50px 0;
+}
+
+.profile-container .profile-picture{
+    width: 200px !important;
+    height: 200px !important ;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ffffff;
+    margin: 1rem 0;
+    position: absolute;
+    top: -100px;
+    
+}
+
+
+
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+    margin: 1rem 0;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+    position: relative;
+    top: 0;
+    padding: 1rem;
+}
+
+.edit-profile{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 2rem !important;
+}
+
+.profile-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+}
+
+.profile-stats{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    
+}
+
+.profile-stats > :nth-child(2) {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.Profile-page h1{
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 1rem 0;
 }
