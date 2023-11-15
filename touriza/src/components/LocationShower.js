@@ -2,11 +2,6 @@ import React from 'react';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 const LocationShower = ({ lat, lng }) => {
-    const mapContainerStyle = {
-        width: '50%',
-        height: '400px',
-    };
-
     const center = {
         lat: Number(lat),
         lng: Number(lng),
@@ -21,7 +16,7 @@ const LocationShower = ({ lat, lng }) => {
 
     return (
         <>
-            <GoogleMap mapContainerStyle={mapContainerStyle} zoom={15} center={center}  >
+            <GoogleMap mapContainerClassName='location-shower-map' zoom={15} center={center}  >
                 <Marker position={center} />
             </GoogleMap>
             <a href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`} target="_blank" rel="noreferrer">

@@ -56,7 +56,7 @@ function Profile() {
                                 }
                             </label>    
                             
-                            <label>Posts</label>
+                            <label>{userInformation.numberOfPost == 1? "Tour" : "Tours" }</label>
                                 
 
                         </div>
@@ -68,7 +68,7 @@ function Profile() {
                                 : 0
                                 }
                             </label>
-                            <label>Comentarios</label>
+                            <label>{userInformation.numberOfComments == 1? "Comentario" : "Comentarios" }</label>
                         </div>
                         <div className="stat-group">
                             <label>
@@ -78,14 +78,20 @@ function Profile() {
                                 : 0
                                 }
                             </label>
-                            <label>Favoritos</label>
+                            <label>{userInformation.numberOfFavorites == 1? "Favorito" : "Favoritos" }</label>
                         </div>
                     </div>
                     <h1>
                         {userInformation.name + " " + userInformation.lastName}
                     </h1>
-                    <p>{userInformation.email}</p>
-                    <p>{userInformation.phone}</p>
+                    <p className="profile-data " >
+                        <i class="fi fi-rr-phone-call"></i>
+                        {userInformation.phone}
+                    </p>
+                    <p className="profile-data" >
+                        <i class="fi fi-rr-at"></i>
+                        {userInformation.email}
+                    </p>
                 </div>
                 </div>
             </div>

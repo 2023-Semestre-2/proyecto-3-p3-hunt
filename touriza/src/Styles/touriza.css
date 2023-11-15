@@ -1,4 +1,13 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -297,14 +306,21 @@ code {
 {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: auto;
+    margin: 0 auto;
     background-color: #f2f2f2;
     width: 85%;
+    height: 100%;
 }
 
 .Favourites-page{
     width: 70%;
+    height: 100%;
+    min-height: 100%;
+}
+
+.Favourites-page .tours{
+    width: 100%;
+    min-height: 70vh;
 }
 
 .page-title{
@@ -320,6 +336,7 @@ code {
     align-items: flex-start;
     margin: auto;
     width: 100%;
+    height: 100%;
 }
 
 .filters{
@@ -328,6 +345,7 @@ code {
     width: 400px;
     height: 100%;
     margin: 0 1rem 0 0;
+    padding: 0 0 1rem 0;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
@@ -348,6 +366,10 @@ code {
     border: 1px solid rgb(0, 0, 0, 0.2);
     border-radius: 0.5rem;
     
+}
+
+.filters fieldset > :last-child{
+    margin-bottom: 1rem;
 }
 
 .filters fieldset legend{
@@ -419,7 +441,7 @@ code {
 }
 
 
-.tour{
+.tour-prev{
     display: flex;
     flex-direction: row;
     height: 150px;
@@ -443,15 +465,14 @@ code {
     padding: 1rem;
     border-radius: 0 0.5rem 0.5rem 0;
     width: 100%;
-    background-color: #ffffff;
 }
 
 .tour-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2px;
-    padding-top: 0%;
+    margin-top: 1px;
+    padding-top: 2rem;
 }
 
 .tour-name {
@@ -495,8 +516,7 @@ code {
     background-color: white;
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-        bottom: 0;
+    bottom: 0;
 }
 
 .footer .footer-container{
@@ -573,7 +593,8 @@ code {
 
 }
 
-.create-tour-title{
+.create-tour-title,
+.tour-title{
     width: 100%;
     font-size: 2rem;
     font-weight: 500;
@@ -648,7 +669,7 @@ code {
 
 
 .selected-images {
-    height: 300px;
+    height: 400px;
     object-fit: contain;
 }
 
@@ -865,9 +886,10 @@ code {
     position: absolute;
     right: 20px;
     top: 20px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 400;
     padding: 0 2rem !important;
+    
 }
 
 .profile-body{
@@ -907,4 +929,257 @@ code {
     font-size: 2rem;
     font-weight: 500;
     margin: 1rem 0;
+}
+
+.profile-data,
+.contact-data{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+
+.Tour-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto;
+    width: 80%;
+}
+
+.asides-container{
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+
+.tour-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+
+
+.tour-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65%;
+    margin: 1rem 1rem;
+    top: 0;
+    padding: 1rem 1rem;
+    
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 10px;
+
+}
+.tour{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.Tour-page .tour-info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.aside-ubi-con{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+}
+
+.aside-ubi-con h2{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 1rem 0;
+}
+
+.aside-ubi-con .contact-data{
+    margin-left: 1rem;
+}
+
+.aside-ubi-con .contact-data .fi{
+    color: #0066ff;
+}
+
+.location,
+.contact-info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+
+.location-shower-map{
+    width: 100%;
+    height: 300px;
+}
+
+.comments{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    width: 100%;
+}
+.newComment-container,
+.comment{
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.comment-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 1rem;
+}
+
+.comment-header > :nth-child(1){
+    font-size: 1.2rem;
+    font-weight: 550;
+    margin: 0 10px 0 0;
+    align-self: flex-end;
+}
+
+.comment-header > :nth-child(2){
+    margin: 0 auto 0 0;
+    font-size: 0.8rem;
+    font-weight: 200;
+    align-self: flex-end;
+}
+
+.tour-fav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.fi-rr-heart,
+.fi-sr-heart{
+    color: #000000;
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.red{
+    color: #ff0000 !important;
+}
+
+.comments h2{
+    width: 100%;
+}
+.newComment-container{
+    flex-direction: column  !important;
+    align-items: flex-start;
+}
+
+.comment-details{
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-body{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.newComment{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.newComment button[type="submit"]{
+    border-radius: 50px;
+    margin-left: auto;
+    width: 120px;
+    height: 40px;
+}
+
+
+.comments img {
+    width: 70px;
+    height: 70px;
+    margin: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-input{
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.5);
+    font-size: 1rem;
+    resize: none;
+    overflow: expand;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+}
+
+.comment-container{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.comment-comment {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+}
+
+.tags{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+}
+
+.tag-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0.5rem 0;
+}
+
+.tag{
+    background-color: #0066ff;
+    color: #fff;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 400;
 }

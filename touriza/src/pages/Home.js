@@ -195,7 +195,7 @@ function Home() {
                     </form>
                     {filteredTours.length > 0 ? (
                         filteredTours.map((tour) => (
-                        <article className="tour" key={tour.idTour}
+                        <article className="tour-prev" key={tour.idTour}
                             onClick={() => {
                                 navigate(`/Tour/${tour.idTour}`, { state: { tour } });
                             }}>

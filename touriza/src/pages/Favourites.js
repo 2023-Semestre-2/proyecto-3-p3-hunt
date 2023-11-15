@@ -8,7 +8,7 @@ function Favourites() {
     const [tours, setTours] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/getToursPreviewsFav", {
+        fetch(`http://localhost:3000/getToursPreviewsFav/${JSON.parse(localStorage.getItem('user')).idUser}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function Favourites() {
             <section className="tours">
                     {tours.length > 0 ? (
                         tours.map((tour) => (
-                        <article className="tour" key={tour.idTour}
+                        <article className="tour-prev" key={tour.idTour}
                             onClick={() => {
                                 navigate(`/Tour/${tour.idTour}`, { state: { tour } });
                             }}>

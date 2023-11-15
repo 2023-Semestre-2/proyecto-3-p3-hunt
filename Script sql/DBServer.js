@@ -272,9 +272,10 @@ app.get('/getToursPreviews', async (req, res) => {
 
 
 
-app.get('/getToursPreviewsFav', async (req, res) => {
-  const sqlSelect = 'SELECT * FROM tour INNER JOIN favorite ON tour.idTour = favorite.idTour';
-  connection.query(sqlSelect, (err, result) => {
+app.get('/getToursPreviewsFav/:idUser', async (req, res) => {
+  const { idUser } = req.params;
+  const sqlSelect = 'SELECT * FROM tour INNER JOIN favorite ON tour.idTour = favorite.idTour WHERE favorite.idUser = ?';
+  connection.query(sqlSelect, [idUser], (err, result) => {
     if (err) {
       console.log(err);
       res.status(400).json({ code:400, message: 'Error getting tours' });
@@ -395,16 +396,35 @@ app.post('/postComment', async (req, res) => {
   });
 });
 
-app.post('/addToFav', async (req, res) => {
+app.post('/toggleFav', async (req, res) => {
   const { idTour, idUser } = req.body;
-  const sqlInsert =
-    'INSERT INTO favorite (idTour, idUser) VALUES (?,?)';
-  connection.query(sqlInsert, [idTour, idUser], (err, result) => {
+  const sqlCheck = 'SELECT * FROM favorite WHERE idTour = ? AND idUser = ?';
+  connection.query(sqlCheck, [idTour, idUser], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(400).json({ code:400, message: 'Error adding to favorites' });
+      res.status(400).json({ code:400, message: 'Error checking favorites' });
     } else {
-      res.status(200).json({ code:200, message: 'Added to favorites' });
+      if (result.length > 0) {
+        const sqlDelete = 'DELETE FROM favorite WHERE idTour = ? AND idUser = ?';
+        connection.query(sqlDelete, [idTour, idUser], (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({ code:400, message: 'Error removing from favorites' });
+          } else {
+            res.status(200).json({ code:200, message: 'Removed from favorites' });
+          }
+        });
+      } else {
+        const sqlInsert = 'INSERT INTO favorite (idTour, idUser) VALUES (?,?)';
+        connection.query(sqlInsert, [idTour, idUser], (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(400).json({ code:400, message: 'Error adding to favorites' });
+          } else {
+            res.status(200).json({ code:200, message: 'Added to favorites' });
+          }
+        });
+      }
     }
   });
 });
@@ -511,6 +531,24 @@ app.post('/updateUser', upload.single('profilePicUpload'), async (req, res) => {
   });
 });
 
+
+app.get('/isFav/:idUser/:idTour', async (req, res) => {
+  const { idUser, idTour } = req.params;
+  const sqlSelect = 'SELECT * FROM favorite WHERE idUser = ? AND idTour = ?';
+  connection.query(sqlSelect, [idUser, idTour], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ code:400,  message: 'Error getting info' });
+    } else {
+      console.log(result);
+      if(result.length > 0){
+        res.status(200).json({ code:200, message: 'Is fav', isFav: true });
+      }else{
+        res.status(200).json({ code:200, message: 'Is not fav', isFav: false });
+      }
+    }
+  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
