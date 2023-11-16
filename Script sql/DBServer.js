@@ -432,6 +432,7 @@ app.post('/toggleFav', async (req, res) => {
 app.get('/getInfoProfile/:idUser', async (req, res) => {
   const { idUser } = req.params;
   const sqlSelect = 'SELECT '+
+                      'user.idUser, '+
                       'user.name, '+
                       'user.lastName, '+
                       'user.email, '+
@@ -506,7 +507,7 @@ app.post('/updateUser', upload.single('profilePicUpload'), async (req, res) => {
                 res.status(400).json({ code:400,  message: 'Error updating user' });
               } else {
                 console.log(result);
-                res.status(200).json({ code:200, message: 'User updated' });
+                res.status(200).json({ code:200, message: 'User updated', profilePicture: req.file.filename });
               }
             });
           }else{

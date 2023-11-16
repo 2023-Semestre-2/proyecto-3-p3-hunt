@@ -2,7 +2,7 @@ import { id } from "date-fns/locale";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-function Profile() {
+function Profile({updateProfile}) {
     const navigate = useNavigate();
     const { idUser } = useParams();
     const [userInformation, setUserInformation] = useState({});
@@ -18,10 +18,13 @@ function Profile() {
             .then((data) => {
                 console.log(data);
                 setUserInformation(data.user);
+                updateProfile(data.user);
             })
             .catch((err) => {
                 console.log(err);
             });
+
+        
     }
         , [idUser]);
 
@@ -37,13 +40,17 @@ function Profile() {
                 />
                     <div className="profile-header">
                     {idUser == JSON.parse(localStorage.getItem('user')).idUser ? (
-                        <button
-                            className="btn btn-primary edit-profile"
-                            onClick={() => { navigate(`/EditProfile`); }}
-                        >Editar perfil</button>
-                    ) : (
-                        <></>
-                    )}
+    <button
+        className="btn btn-primary edit-profile"
+        onClick={() => { navigate(`/EditProfile`); }}
+    >
+
+        <i className="fi fi-rr-edit"></i>
+        Editar perfil
+    </button>
+) : (
+    <></>
+)}
                     </div>
                     <div className="profile-body">
                     <div className="profile-stats">

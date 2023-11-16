@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-    
     const [formValues, setFormValues] = useState({
         email: "",
         password: "",
@@ -11,6 +10,8 @@ function Login(props) {
 
     const navigate = useNavigate();
 
+   
+    
     function handleSubmint(e) {
         e.preventDefault();
         console.log("Login");
@@ -77,6 +78,7 @@ function Login(props) {
                             name="password"
                             placeholder="Contraseña"
                             onChange={handleChange}
+                            
                         />
                     </div>
                     <button 

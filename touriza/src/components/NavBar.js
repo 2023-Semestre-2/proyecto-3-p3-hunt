@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import { set } from 'date-fns';
+import React, { useState, useContext, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 
 
-function NavBar({ user, logout }) {
 
+function NavBar({user, logout, trigger }) {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log('cambio de usuario');
+        console.log(user);
+    }, [user]);
+        
+
+
 
     return (
         <nav className='navbar' >

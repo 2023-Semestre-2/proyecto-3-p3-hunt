@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function EditProfile() {
     const navigate = useNavigate();
+
     const [userInformation, setUserInformation] = useState({});
     const [formValues, setFormValues] = useState({
         profilePic: "",
@@ -21,24 +22,24 @@ function EditProfile() {
                 "Content-Type": "application/json",
             },
         })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            setUserInformation(data.user);
-            setFormValues({
-                ...formValues,
-                name: data.user.name,
-                lastName: data.user.lastName,
-                phone: data.user.phone
-            });
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setUserInformation(data.user);
+                setFormValues({
+                    ...formValues,
+                    name: data.user.name,
+                    lastName: data.user.lastName,
+                    phone: data.user.phone
+                });
 
-            setImagePreview(`${process.env.PUBLIC_URL}/uploads/pfp/${data.user.profilePicture}`);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+                setImagePreview(`${process.env.PUBLIC_URL}/uploads/pfp/${data.user.profilePicture}`);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
-    , []);
+        , []);
 
 
     function handleChange(e) {
@@ -52,6 +53,10 @@ function EditProfile() {
         }
     }
 
+    const handleCancel = () => {
+        navigate("/Home")
+    };
+
     function handleSubmit(e) {
         e.preventDefault();
         console.log("EditProfile");
@@ -64,7 +69,7 @@ function EditProfile() {
         }
         // Update the user
         console.log(formValues);
-        
+
         // Create a new FormData instance
         const formData = new FormData();
 
@@ -78,6 +83,7 @@ function EditProfile() {
         formData.append('oldProfilePicture', userInformation.profilePicture);
         if (formValues.profilePic) {
             formData.append('profilePicUpload', formValues.profilePic);
+            
             console.log("Profile pic changed");
         }
         console.log(formData.get('profilePicUpload'));
@@ -85,19 +91,21 @@ function EditProfile() {
         fetch("http://localhost:3000/updateUser", {
             method: "POST",
             body: formData,
-            
+
         })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            if(data.code === 200){
-                navigate(`/Profile/${userInformation.idUser}`);
-            }else{
-                alert(data.message);
-            }
-        });
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if (data.code === 200) {
+                    console.log(userInformation);
+                   
+                    navigate(`/Profile/${userInformation.idUser}`);
+                } else {
+                    alert(data.message);
+                }
+            });
     }
-    
+
 
     function handleChangeForm(e) {
         setFormValues({
@@ -106,27 +114,74 @@ function EditProfile() {
         });
     }
 
-  return (
-    <div>
-      <h1>EditProfile</h1>
-          <form onSubmit={handleSubmit} >
+    
+    return (
+        <div className="EditProfile-page">
+            <h1 className="editProfile-title" >Editar perfil</h1>
+            <div className="profile-container">
+                <form className="profile-info" onSubmit={handleSubmit} >
 
-              <img
-                  style={{ width: '70px' }}
-                  src={imagePreview}
-                  alt="profile picture"
-              />
-              <input type="file" name="profilePicture" id="profilePicture" onChange={handleChange} />
-              <input type="text" name="name" id="name" placeholder={userInformation.name} onChange={handleChangeForm}/>
-              <input type="text" name="lastName" id="lastName" placeholder={userInformation.lastName} onChange={handleChangeForm} />
-              <input type="text" name="phone" id="phone" placeholder={userInformation.phone} onChange={handleChangeForm} />
-              <input type="password" name="password" id="password" placeholder="Contraseña actual" onChange={handleChangeForm} />
-              <input type="password" name="newPassword" id="newPassword" placeholder="Nueva contraseña" onChange={handleChangeForm} />
-              <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña" onChange={handleChangeForm} />
-               <button type="submit" >Guardar</button>
-          </form>
 
-    </div>
+
+                    <label
+                        className="profile-picture"
+                        htmlFor="profilePicUpload"
+                    >
+                        <img
+                            className="profile-picture"
+                            src={imagePreview}
+                            alt="profile picture"
+                            style={{ marginTop: '100px' }}
+
+                        />
+                        <input
+                            type="file"
+                            id="profilePicUpload"
+                            onChange={handleChange}
+                            style={{ display: 'none' }}
+                        />
+                    </label>
+
+                    <div className="profile-body">
+                        <div className="row-2">
+                            <div className="form-group-a">
+                                <label htmlFor="name">Nombre</label>
+                                <input type="text" name="name" id="name" placeholder={userInformation.name} onChange={handleChangeForm} />
+                            </div>
+                            <div className="form-group-a">
+                                <label htmlFor="lastname">Apellidos</label>
+                                <input type="text" name="lastName" id="lastName" placeholder={userInformation.lastName} onChange={handleChangeForm} />
+                            </div>
+                        </div>
+                        <div className="row-2">
+                            <div className="form-group-a">
+                                <label htmlFor="phone">Teléfono</label>
+                                <input type="text" name="phone" id="phone" placeholder={userInformation.phone} onChange={handleChangeForm} />
+                            </div>
+                            <div className="form-group-a">
+                                <label htmlFor="password">Contraseña actual</label>
+                                <input type="password" name="password" id="password" placeholder="Contraseña actual" onChange={handleChangeForm} />
+                            </div>
+                        </div>
+                        <div className="row-2">
+                            <div className="form-group-a">
+                                <label htmlFor="newPassword">Nueva contraseña</label>
+                                <input type="password" name="newPassword" id="newPassword" placeholder="Nueva contraseña" onChange={handleChangeForm} />
+                            </div>
+                            <div className="form-group-a">
+                                <label htmlFor="confirmPassword">Confirmar contraseña</label>
+                                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña" onChange={handleChangeForm} />
+                            </div>
+                        </div>
+                        <div className="buttons">
+                            <button type="cancel" className="btn btn-secondary" onClick={handleCancel}>Cancelar</button>
+                            <button type="submit" className="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     )
 }
 

@@ -14,9 +14,11 @@ import EditProfile from './pages/EditProfile';
 import Footer from './components/Footer';
 
 
-function App() {
 
+function App() {
+  const [profilePic, setProfilePic] = useState(null);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+  const [trigger, setTrigger] = useState(0);
 
 
   useEffect(() => {
@@ -31,20 +33,23 @@ function App() {
 
   function logout() {
     // your logout code
-    setUser(null);
     localStorage.removeItem('user');
+    setUser(null);
   }
+
+  
 
   return (
     <BrowserRouter>
-      <NavBar user={user} logout={logout} />
+      <NavBar user={user} logout={logout} trigger={trigger} />
+
       <Routes>
           <Route path="/" element={user?<Home/>:<Login onLogin={handleLogin} />} />
           <Route path='/Home' element={<Home  user={user}/>} /> 
           <Route path='/Favourites' element={<Favourites user={user} />} />
           <Route path='/CrearTour' element={<CrearTour user={user} />} />
-          <Route path='/Profile/:idUser' element={<Profile/>} />
-          <Route path='/EditProfile' element={<EditProfile/>} />
+          <Route path='/Profile/:idUser' element={<Profile updateProfile={handleLogin} />} />
+          <Route path='/EditProfile' element={<EditProfile setTrigger={setTrigger}/>} />
           <Route path="/Tour/:idTour" element={<Tour user={user}  />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login onLogin={handleLogin} />} />    

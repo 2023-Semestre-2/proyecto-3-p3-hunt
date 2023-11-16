@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { FaStar, FaRegStar,FaBars } from 'react-icons/fa';
 
 function Home() {
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ function Home() {
     const [filteredTours, setFilteredTours] = useState(tours);
     const [filters, setFilters] = useState({ stars: '', type: [], amenities: [] });
     const [search, setSearch] = useState('');
-
+    const [showFilters, setShowFilters] = useState(false);
     useEffect(() => {
         fetch("http://localhost:3000/getToursPreviews", {
             method: "GET",
@@ -70,13 +70,23 @@ function Home() {
         console.log(filteredTours);
     }, [filteredTours]);
 
+    const toggleFilters = () => {
+        setShowFilters(!showFilters);
+    };
+
     return (
         <div className="Home-page" >
+            <div className="Home-header">
             <h1 className="page-title" >Tours</h1>
+            <button className="burger-button" onClick={toggleFilters}>
+                <FaBars />
+            </button>
+            </div>
             <div className="main-container">
-                <section className="filters">
+            <section className={`filters ${showFilters ? 'show' : ''}`}>
+                    
                     <h2 >Filtros</h2>
-
+                    <div className="fieldSets">
                     <fieldset className="fieldset-estrellas" >
                         <legend>Estrellas:</legend>
                         <div>
@@ -185,12 +195,14 @@ function Home() {
                             Accesible
                         </label>
                     </fieldset>
+                    </div>
                 </section>
                 <section className="tours">
                     <form className="search-form" onSubmit={e => e.preventDefault()}>
                         <input type="text" className="search-input" placeholder="Buscar..." value={search} onChange={handleSearchChange} />
                         <button type="submit" className="search-btn">
                             Buscar
+                            < i className="fi fi-rr-search"></i>
                         </button>
                     </form>
                     {filteredTours.length > 0 ? (

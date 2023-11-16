@@ -18,6 +18,17 @@ function Tour() {
     const [comments, setComments] = useState([]);
     const [amenities, setAmenities] = useState([]);
     const [isFav, setIsFav] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
+    const handleWindowResize = () => {
+        setWindowWidth(window.innerWidth);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize);
+        return () => window.removeEventListener('resize', handleWindowResize);
+    }, []);
 
     const [commentForm, setCommentForm] = useState({
         idUser: JSON.parse(localStorage.getItem('user')).idUser,
@@ -227,6 +238,63 @@ function Tour() {
         navigate(`/Profile/${idUser}`);
     }
 
+    function getAsides() {
+        return(
+            <div className="asides-container">
+                    <aside className="aside-ubi-con" key={tour.idTour} >
+                    <article className="location">
+                        <h2>Ubicacion</h2>
+                        <LocationShower lat={locationTour.lat} lng={locationTour.lng} />
+                        <p>{locationTour.address}</p>
+                    </article>
+                    <article className="contact-info">
+
+
+                        <h2>Contacto</h2>
+                        <p className="contact-data">
+                            <i class="fi fi-rr-at"></i>
+                            {contact.email}
+                        </p>
+                        <p className="contact-data">
+                            <i class="fi fi-rr-phone-call"></i>
+                            {contact.phone}
+                        </p>
+                        <p className="contact-data">
+                            <i class="fi fi-rr-globe"></i>
+                            {contact.website}
+                        </p>
+                    </article>
+                    </aside>
+                    <aside className="tags" key={tour.idTour}>
+                        <h2>Tags</h2>
+
+                        <div className="tag-container">
+                            {Object.values(amenities)[2] !== 0 && <p className="tag">Hotel</p>}
+                            {Object.values(amenities)[3] !== 0 && <p className="tag">Restaurante</p>}
+                            {Object.values(amenities)[4] !== 0 && <p className="tag">Rio</p>}
+                            {Object.values(amenities)[5] !== 0 && <p className="tag">Playa</p>}
+                            {Object.values(amenities)[6] !== 0 && <p className="tag">Montaña</p>}
+                            {Object.values(amenities)[7] !== 0 && <p className="tag">Rancho</p>}
+                            {Object.values(amenities)[8] !== 0 && <p className="tag">Piscina</p>}
+                            {Object.values(amenities)[9] !== 0 && <p className="tag">Desayuno incluido</p>}
+                            {Object.values(amenities)[10] !== 0 && <p className="tag">Bar</p>}
+                            {Object.values(amenities)[11] !== 0 && <p className="tag">Wifi</p>}
+                            {Object.values(amenities)[12] !== 0 && <p className="tag">Fogata</p>}
+                            {Object.values(amenities)[13] !== 0 && <p className="tag">Parqueo</p>}
+                            {Object.values(amenities)[14] !== 0 && <p className="tag">Aire acondicionado</p>}
+                            {Object.values(amenities)[15] !== 0 && <p className="tag">Gimnacio</p>}
+                            {Object.values(amenities)[16] !== 0 && <p className="tag">Spa</p>}
+                            {Object.values(amenities)[17] !== 0 && <p className="tag">Servicio al cuarto</p>}
+                            {Object.values(amenities)[18] !== 0 && <p className="tag">Buena vista</p>}
+                            {Object.values(amenities)[19] !== 0 && <p className="tag">Accesible</p>}
+                            {Object.values(amenities)[20] !== 0 && <p className="tag">Se aceptan mascotas</p>}
+                            {Object.values(amenities)[21] !== 0 && <p className="tag">Gratis</p>}
+                        </div>
+                    </aside>
+                </div>
+        )
+
+    }
 
 
 
@@ -285,6 +353,7 @@ function Tour() {
                             <p>{tour.description}</p>
                         </div>
                     </section>
+                    {windowWidth > 1280 ? <></> : getAsides()}
                     <section className="comments" key={tour.idTour} >
                         <h2>{comments.length}
                             {comments.length === 1 ? " Comentario" : " Comentarios"}
@@ -377,58 +446,7 @@ function Tour() {
                             ))}
                     </section>
                 </div>
-                <div className="asides-container">
-                    <aside className="aside-ubi-con" key={tour.idTour} >
-                    <article className="location">
-                        <h2>Ubicacion</h2>
-                        <LocationShower lat={locationTour.lat} lng={locationTour.lng} />
-                        <p>{locationTour.address}</p>
-                    </article>
-                    <article className="contact-info">
-
-
-                        <h2>Contacto</h2>
-                        <p className="contact-data">
-                            <i class="fi fi-rr-at"></i>
-                            {contact.email}
-                        </p>
-                        <p className="contact-data">
-                            <i class="fi fi-rr-phone-call"></i>
-                            {contact.phone}
-                        </p>
-                        <p className="contact-data">
-                            <i class="fi fi-rr-globe"></i>
-                            {contact.website}
-                        </p>
-                    </article>
-                    </aside>
-                    <aside className="tags" key={tour.idTour}>
-                        <h2>Tags</h2>
-
-                        <div className="tag-container">
-                            {Object.values(amenities)[2] !== 0 && <p className="tag">Hotel</p>}
-                            {Object.values(amenities)[3] !== 0 && <p className="tag">Restaurante</p>}
-                            {Object.values(amenities)[4] !== 0 && <p className="tag">Rio</p>}
-                            {Object.values(amenities)[5] !== 0 && <p className="tag">Playa</p>}
-                            {Object.values(amenities)[6] !== 0 && <p className="tag">Montaña</p>}
-                            {Object.values(amenities)[7] !== 0 && <p className="tag">Rancho</p>}
-                            {Object.values(amenities)[8] !== 0 && <p className="tag">Piscina</p>}
-                            {Object.values(amenities)[9] !== 0 && <p className="tag">Desayuno incluido</p>}
-                            {Object.values(amenities)[10] !== 0 && <p className="tag">Bar</p>}
-                            {Object.values(amenities)[11] !== 0 && <p className="tag">Wifi</p>}
-                            {Object.values(amenities)[12] !== 0 && <p className="tag">Fogata</p>}
-                            {Object.values(amenities)[13] !== 0 && <p className="tag">Parqueo</p>}
-                            {Object.values(amenities)[14] !== 0 && <p className="tag">Aire acondicionado</p>}
-                            {Object.values(amenities)[15] !== 0 && <p className="tag">Gimnacio</p>}
-                            {Object.values(amenities)[16] !== 0 && <p className="tag">Spa</p>}
-                            {Object.values(amenities)[17] !== 0 && <p className="tag">Servicio al cuarto</p>}
-                            {Object.values(amenities)[18] !== 0 && <p className="tag">Buena vista</p>}
-                            {Object.values(amenities)[19] !== 0 && <p className="tag">Accesible</p>}
-                            {Object.values(amenities)[20] !== 0 && <p className="tag">Se aceptan mascotas</p>}
-                            {Object.values(amenities)[21] !== 0 && <p className="tag">Gratis</p>}
-                        </div>
-                    </aside>
-                </div>
+                {windowWidth > 1280 ? getAsides() : <></>}
             </div>
         </div>
 

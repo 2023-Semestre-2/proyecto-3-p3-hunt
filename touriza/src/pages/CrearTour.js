@@ -379,7 +379,7 @@ function CrearTour(props) {
                     ></textarea>
                     <p className="char-counter" >{addressCharCount}/200</p>
                 </div>
-                <div className="form-group row">
+                <div id="star-picker" className="form-group row">
                     <label htmlFor="stars">
                         ¿Que tan bueno es este lugar?
                     </label>

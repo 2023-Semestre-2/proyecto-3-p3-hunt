@@ -7,6 +7,8 @@ html, body{
 body {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
     min-height: 100vh;
     margin: 0;
     font-family: sans-serif;
@@ -252,6 +254,7 @@ code {
     background-color: #ffffff;
 }
 
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -302,7 +305,8 @@ code {
 
 .Home-page,
 .Favourites-page,
-.Profile-page
+.Profile-page,
+.EditProfile-page
 {
     display: flex;
     flex-direction: column;
@@ -342,15 +346,24 @@ code {
 .filters{
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 25%;
     height: 100%;
     margin: 0 1rem 0 0;
     padding: 0 0 1rem 0;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
 }
 
+.filters.show{
+    transform: translateX(0);
+}
+
+
+.burger-button {
+    display: none;
+}
 .filters h2{
     margin: 1rem;
     font-size: 1.5rem;
@@ -400,7 +413,7 @@ code {
 .tours{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 75%;
     border-radius: 10px;
     align-items: stretch;
     padding: 1rem;
@@ -419,8 +432,9 @@ code {
     padding: 0.5rem 1rem;
     border: 1px solid rgb(0, 0, 0, 0.2);
     border-radius: 0.5rem 0 0 0.5rem;
-    height: 100%;
+    height: 35px;
     width: 450px;
+    box-sizing: border-box;
 }
 
 .search-form input:focus{
@@ -431,15 +445,19 @@ code {
     background-color: #0066ff;
     color: #fff;
     border: none;
-    height: 99%;
+    height: 35px;
     border-radius: 0 0.5rem 0.5rem 0;
     justify-content: center;
     text-align: center;
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 1.1rem;
+    box-sizing: border-box;
 }
 
+.search-form button .fi-rr-search{
+    font-size: 0
+}
 
 .tour-prev{
     display: flex;
@@ -472,7 +490,6 @@ code {
     justify-content: space-between;
     align-items: center;
     margin-top: 1px;
-    padding-top: 2rem;
 }
 
 .tour-name {
@@ -850,7 +867,24 @@ code {
     height: 500px;
     justify-content: center;
     align-items: center;
-    padding: 100px 0 50px 0;
+    padding: 80px 0 50px 0;
+}
+
+.EditProfile-page .profile-container{
+    margin-top: 30px;
+}
+
+.EditProfile-page h1{
+    width: 85%;
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 80px 0 0 0;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    text-align: left;
+
 }
 
 .profile-container .profile-picture{
@@ -873,7 +907,7 @@ code {
     justify-content: space-between;
     align-items: center;
     width: 85%;
-    margin: 1rem 0;
+    margin:  0;
     background-color: #ffffff;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
     border-radius: 10px;
@@ -886,6 +920,7 @@ code {
     position: absolute;
     right: 20px;
     top: 20px;
+    height: 30px;
     font-size: 0.8rem;
     font-weight: 400;
     padding: 0 2rem !important;
@@ -897,8 +932,10 @@ code {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 150px;
+    margin-top: 100px;
 }
+
+
 
 .profile-stats{
     display: flex;
@@ -1182,4 +1219,342 @@ code {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
     font-weight: 400;
+}
+
+.row-2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.EditProfile-page .buttons{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: flex-end;
+    margin: 0 0 0 auto;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.EditProfile-page .buttons button[type="submit"]{
+    background-color: #0066ff;
+    color: #fff;
+    border: none;
+    height: 50px;
+    border-radius: 0.5rem;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    width: 200px;
+}
+  
+
+.EditProfile-page .buttons button[type="cancel"]{
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #333;
+    height: 50px;
+    border-radius: 0.5rem;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    width: 200px;
+}
+
+.fi-rr-edit{
+    display: none;
+}
+
+
+@media (max-width: 1280px) {
+
+    .Tour-page .tour-body{
+        width: 100%;
+    }
+
+    .asides-container{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .aside-ubi-con{
+        border: none;
+        box-shadow: none; 
+    }
+
+    .tags{
+        border: none;
+        box-shadow: none;    
+    }
+
+
+    
+}
+
+
+
+@media (max-width: 1500px) {
+    .tour-description{
+        font-size: 0.9rem;
+    
+    }
+}
+
+@media (max-width: 1100px) {
+    .filters {
+        position: absolute;
+        z-index: 1;
+        height: fit-content;
+        overflow: auto;
+        background: white;
+        transform: translateX(-200%);
+        flex-direction: column;
+        width: 85%;
+        max-height: 100vh; 
+        overflow: auto; 
+        display: flex;
+    }
+
+    .fieldSets{
+        display: flex;
+        flex-direction: row;}
+
+    .filters h2 {
+        flex: 0 1 auto;
+        width: 100%;
+    }
+
+    .filters fieldset {
+        flex: 1 0 auto;
+    }
+
+    .tours {
+        width: 100%;
+    }
+
+    .burger-button {
+        display: block;
+        color: #0066ff;
+        background-color: #f2f2f2;
+        border: none;
+        font-size: 1.5rem;
+
+    }
+
+    .Home-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 60px;
+        padding: 0 1rem;
+        background-color: #f2f2f2;
+        box-sizing: border-box;
+    }	
+
+    .tour-description {
+        font-size: 0.8rem;
+    }
+
+    .footer .footer-text{
+        display: none;
+    }
+
+    .Home-page{
+        height: fit-content;
+    }
+
+    .form-check-tags {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+   
+
+    
+}
+
+
+@media only screen and (max-width: 800px) {
+
+    html,
+    body{
+        width: 100% !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .navbar .btn{
+        display: none;
+    }
+
+    .login form,
+    .register form{
+        width: 100%;
+        height: 100%;
+        background-color: #f2f2f2;
+        box-shadow: none;
+        border: none;
+        justify-self: center;
+        align-self: center;
+        margin: auto;
+    }
+
+    .fi-rr-edit{
+        display: block;
+        font-size: 1.2rem !important;
+    }
+
+  
+    .edit-profile{
+        font-size: 0;
+        background-color: #ffffff;
+        color: #0066ff;
+    }
+    
+    
+    
+    
+
+    .profile-stats{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin: 1rem 0;
+    }
+    .profile-stats > :nth-child(2) {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+    
+    .profile-stats label{
+        font-size: 0.8rem;
+    }
+
+    .stat-group{
+        padding: 0 0.3rem;
+    }
+
+    .tour-body{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .form-check-tags {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    .search-place-input{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #star-picker{
+        flex-direction: column !important;
+    }
+
+    .tours .search-form{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .tours .search-form input{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}
+
+@media only screen and (max-width: 570px){
+   
+    html,
+    body{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .login,
+    .register{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f2f2f2;
+    }
+
+    .login .form-group-a,
+    .register .form-group-a{
+        width: 100%;
+        ;
+    }
+
+    .login .form-group-a label{
+        width: 80%;
+        align-self: center;
+
+        font-size: 1rem;
+    }
+
+    .login input{
+        width: 80%;
+        align-self: center;
+    }
+
+    .login .form-a button{
+        width: 80%;
+        align-self: center;
+    }
+
+    
+
+    .profile-info{
+        border: none;
+        background-color: #ffffff;
+        width: 100%;
+    }
+
+    .navbar{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-link{
+        display: none;
+    }
+
+    .form-check-tags {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+
+    .tour-prev{
+        flex-direction: column !important;
+        height: 100%;
+    }
+
+    .tour-info{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .tour-img{
+        width: 100%;
+        height: 200px;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .search-form .search-btn{
+        font-size: 0;
+    }
+
+    .search-form .search-btn .fi-rr-search{
+        font-size: 1.2rem;
+    }
 }
