@@ -118,10 +118,14 @@ function Register() {
                         <label
                             className="profile-pic-upload"  
                             htmlFor="profilePicUpload">
-                            <img
-                                className="profile-pic-upload" 
-                                src={imagePreview} 
-                                alt="Foto de perfil" />
+                            <div className="image-upload">
+                                <img
+                                    className="profile-pic-upload"
+                                    src={imagePreview}
+                                    alt="Foto de perfil"
+                                />
+                                <span className="image-upload-text">Subir archivo</span>
+                            </div>
                             <input
                                 type="file"
                                 className="form-control"

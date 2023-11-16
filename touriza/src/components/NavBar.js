@@ -6,13 +6,18 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 
 function NavBar({user, logout, trigger }) {
     const navigate = useNavigate();
-
+    const [sidebarActive, setSidebarActive] = useState(false);
     useEffect(() => {
         console.log('cambio de usuario');
         console.log(user);
     }, [user]);
         
 
+    const toggleSidebar = () => {
+        const nav = document.querySelector('.navbar-nav');
+        nav.classList.toggle('active');
+        setSidebarActive(!sidebarActive);
+    };
 
 
     return (
@@ -22,8 +27,13 @@ function NavBar({user, logout, trigger }) {
                     <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" />
                 </Link>
 
+                <div className="hamburger-icon" onClick={toggleSidebar}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="navbar-nav">
+                    <div className="navbar-nav sidebar">
                         {user ? (
                             <>
                                 <NavLink to="/Home" className="nav-link">Tours</NavLink>
@@ -67,6 +77,7 @@ function NavBar({user, logout, trigger }) {
                     </div>
                 </div>
             </div>
+            {sidebarActive && <div className="backdrop" onClick={toggleSidebar}></div>}
         </nav>
     );
 }

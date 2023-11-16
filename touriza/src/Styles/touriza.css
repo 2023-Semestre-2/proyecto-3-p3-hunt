@@ -55,6 +55,52 @@ code {
     gap: 1rem;
 }
 
+.navbar-nav.sidebar {
+    position: fixed;
+    right:  0;
+    top: 78px;
+    width: 100px;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 1;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+    color: #000000;
+    padding: 30px;
+    flex-direction: column !important;
+    backdrop-filter: blur(10px);
+}
+
+@media (min-width: 601px) {
+    .navbar-nav.sidebar {
+        position: static;
+        width: auto;
+        height: auto;
+        background: transparent;
+        transform: none;
+        padding: 0;
+        flex-direction: row !important;
+    }
+}
+
+.navbar-nav.sidebar.active {
+    transform: translateX(0);
+}
+
+.hamburger-icon div {
+    width: 25px;
+    height: 2px;
+    background-color: #333;
+    margin: 4px 0;
+}
+
+.hamburger-icon {
+    display: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+
 .navbar .nav-link {
     color: #333;
     text-decoration: none;
@@ -125,6 +171,25 @@ code {
     height: 750px;
     border: 1px solid rgb(0, 0, 0, 0.1);
 }
+
+.image-upload {
+    position: relative;
+    display: inline-block;
+}
+
+.image-upload-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    text-align: center;
+    width: 80%;
+    border-radius: 10px;
+}
+
 
 .register form{
     width: 760px;
@@ -230,12 +295,7 @@ code {
     text-align: center;
 }
 
-.row-2{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
+
 
 .col{
     display: flex;
@@ -243,7 +303,7 @@ code {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 1rem 0 1rem 1rem ;
 }
 
 .profile-picture{
@@ -766,7 +826,7 @@ code {
 }
 
 .search-place-label{
-    font-size: 1rem;
+    font-size: 0.9rem !important;
     font-weight: 400 !important;
     margin: 0 10px 0 0;
 }
@@ -875,7 +935,7 @@ code {
 }
 
 .EditProfile-page h1{
-    width: 85%;
+    width: 100%;
     font-size: 2rem;
     font-weight: 400;
     margin: 80px 0 0 0;
@@ -898,7 +958,6 @@ code {
     top: -100px;
     
 }
-
 
 
 .profile-info{
@@ -1227,6 +1286,20 @@ code {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.register .row-2,
+.register .form-group-a{
+    width: 80%;
+}
+
+
+.row-2 .form-group-a,    
+.register .form-group-a input{
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .EditProfile-page .buttons{
@@ -1274,8 +1347,30 @@ code {
     display: none;
 }
 
+.EditProfile-page .profile-info{
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.EditProfile-page .profile-info .profile-body{
+    width: 70% !important;
+}
+
+.row-2 .form-group-a{
+    flex:1;
+}
+
+.row-2 .form-group-a input{
+    width: 100%;
+
+    box-sizing: border-box ;
+}
 
 @media (max-width: 1280px) {
+
+    .EditProfile-page .profile-info .profile-body{
+        width: 90% !important;
+    }
 
     .Tour-page .tour-body{
         width: 100%;
@@ -1392,6 +1487,26 @@ code {
         overflow-x: hidden;
     }
 
+    .row-2{
+        flex-direction: column;
+    }
+
+    .row-2 .form-group-a{
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .profile-body .buttons{
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .profile-body .buttons button{
+        width: 100% !important;
+    }
+
     .navbar .btn{
         display: none;
     }
@@ -1472,9 +1587,13 @@ code {
         box-sizing: border-box;
     }
 
+    .EditProfile-page h1{
+        margin: 20px 0 120px 0;
+    }
+
 }
 
-@media only screen and (max-width: 570px){
+@media only screen and (max-width: 600px){
    
     html,
     body{
@@ -1527,12 +1646,10 @@ code {
         box-sizing: border-box;
     }
 
-    .nav-link{
-        display: none;
-    }
-
+    
+    
     .form-check-tags {
-        grid-template-columns: repeat(1, 1fr); 
+        grid-template-columns: repeat(2, 1fr); 
     }
 
     .tour-prev{
@@ -1557,4 +1674,96 @@ code {
     .search-form .search-btn .fi-rr-search{
         font-size: 1.2rem;
     }
+
+    .tour-name{
+        font-size: 1.2rem;
+    }
+
+    .star, .reg-star{
+        font-size: 15px;
+    }
+
+    footer .footer-container{
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .footer-info,
+    .footer-contact,
+    .footer-socials{
+        box-sizing: border-box;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        text-align: center;
+    }
+
+    .footer-socials{
+        width: 50%;
+    }
+
+    .form-group,
+    .upload-images-tour-label{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .navbar-nav {
+        position: fixed;
+        right:  0;
+        top: 70px;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        z-index: 1;
+        transform: translateX(-100%);
+        transition: transform 1s ease-in-out, background 0.5s ease-in-out;
+
+        
+    }
+
+    .navbar-nav.active {
+        transform: translateX(0);
+    }
+
+    .hamburger-icon {
+        display: block;
+    }
+
+    .backdrop {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        z-index: 0;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .Create-tour{
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .form-create-tour{
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f2f2f2;
+        box-shadow: none;
+        align-content: center;
+    }
+    .form-create-tour .form-group,
+    .form-create-tour h2{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
+        margin: 0;
+    }
+
 }

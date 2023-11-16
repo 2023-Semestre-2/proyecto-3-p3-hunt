@@ -139,7 +139,8 @@ function EditProfile() {
                             id="profilePicUpload"
                             onChange={handleChange}
                             style={{ display: 'none' }}
-                        />
+                            />
+                        <span className="image-upload-text">Subir archivo</span>
                     </label>
 
                     <div className="profile-body">

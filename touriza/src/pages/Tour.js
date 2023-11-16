@@ -330,6 +330,7 @@ function Tour() {
 
                             {images.map((image, index) => (
                                 <div key={index} >
+                                    
                                     <img
                                         className="selected-images"
                                         src={`${process.env.PUBLIC_URL}/uploads/tours/${image.picture}`}
