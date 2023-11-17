@@ -39,13 +39,13 @@ function EditProfile() {
 
         if (!formValues.password) {
             errors.password = "Por favor ingresa tu contraseña";
-        } 
+        }
 
         if (formValues.newPassword && !formValues.confirmPassword) {
             errors.confirmPassword = "Por favor confirma tu contraseña";
-        } else if(formValues.newPassword.length<6) {
+        } else if (formValues.newPassword.length < 6) {
             errors.newPassword = "La contraseña debe tener al menos 6 caracteres";
-        } else if (formValues.newPassword !== formValues.confirmPassword) { 
+        } else if (formValues.newPassword !== formValues.confirmPassword) {
             errors.confirmPassword = "Las contraseñas no coinciden";
         }
 
@@ -159,7 +159,7 @@ function EditProfile() {
                         <img
                             className="profile-picture"
                             src={imagePreview}
-                            alt="profile picture"
+                            alt="Foto de perfil de usuario"
                             style={{ marginTop: '100px' }}
 
                         />
@@ -182,7 +182,7 @@ function EditProfile() {
                                 {formErrors.name && <div className="invalid-feedback">{formErrors.name}</div>}
                             </div>
                             <div className="form-group-a">
-                                <label htmlFor="lastname">Apellidos</label>
+                                <label htmlFor="lastName">Apellidos</label>
                                 <input type="text" name="lastName" id="lastName" placeholder={userInformation.lastName} onChange={handleChangeForm} />
                                 {formErrors.lastName && <div className="invalid-feedback">{formErrors.lastName}</div>}
                             </div>
@@ -202,7 +202,7 @@ function EditProfile() {
                         <div className="row-2">
                             <div className="form-group-a">
                                 <label htmlFor="newPassword">Nueva contraseña</label>
-                                <input type="password" name="newPassword" id="newPassword" placeholder="Nueva contraseña" onChange={handleChangeForm} required minLength={6}/>
+                                <input type="password" name="newPassword" id="newPassword" placeholder="Nueva contraseña" onChange={handleChangeForm} required minLength={6} />
                                 {formErrors.newPassword && <div className="invalid-feedback">{formErrors.newPassword}</div>}
                             </div>
                             <div className="form-group-a">

@@ -32,10 +32,17 @@ function Favourites() {
             <section className="tours">
                     {tours.length > 0 ? (
                         tours.map((tour) => (
-                        <article className="tour-prev" key={tour.idTour}
+                        <article   className="tour-prev" key={tour.idTour} tabIndex="0" aria-label={`Tour: ${tour.name}`}
                             onClick={() => {
                                 navigate(`/Tour/${tour.idTour}`, { state: { tour } });
-                            }}>
+                            }}
+                            onKeyPress={(event) => {
+                                if (event.key === 'Enter') {
+                                    navigate(`/Tour/${tour.idTour}`, { state: { tour } });
+                                }
+                            }}
+                            
+                            >
                             {/** get image from public uploads tours */}
                             <img
                                 className="tour-img"

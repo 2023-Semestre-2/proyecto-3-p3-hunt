@@ -28,13 +28,12 @@ create table if not exists tour (
     idUser int not null,
     name varchar(45) not null,
     description varchar(500) not null,
-    isFree boolean not null,
     stars int not null,
     idContact int not null,
     idLocation int not null,
     idAmenity int not null,
     primary key (idTour),
-    foreign key (idUser) references user (idUser),
+    foreign key (idUser) references user (idUser)
 
 );
 
