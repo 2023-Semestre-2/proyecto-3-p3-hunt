@@ -5,6 +5,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { set } from "date-fns";
 function CrearTour(props) {
     const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ function CrearTour(props) {
             isPetFriendly: false,
             isFree: false
         },
-        stars: "",
+        stars: 1,
         location: {
             lat: "",
             lng: "",
@@ -52,6 +53,9 @@ function CrearTour(props) {
         }
     });
 
+    const [formErrors, setFormErrors] = useState({});
+
+
     function setCoords(coords) {
         console.log("setLng");
         console.log(coords);
@@ -62,12 +66,55 @@ function CrearTour(props) {
 
     }
 
+    function validateForm() {
+        let errors = {};
+
+        // Add validation checks for each field
+        if (!formValues.name) {
+            errors.name = "Por favor ingresa el nombre del lugar";
+        }
+
+        if (Object.keys(formValues.images).length === 0) {
+            errors.images = "Por favor selecciona al menos una imagen";
+        }
+
+        if (!formValues.description) {
+            errors.description = "Por favor ingresa una descripción del lugar";
+        }
+
+        const amenitySelected = Object.values(formValues.ammenities).some(value => value);
+        if (!amenitySelected) {
+            errors.ammenities = "Al menos una etiqueta debe ser seleccionada";
+        }
+
+        if (!formValues.location.address) {
+            errors.address = "Por favor ingresa la dirección del lugar";
+        }
+
+        if (!formValues.contact.phone) {
+            errors.phone = "Por favor ingresa un número de teléfono";
+        } else if (!/^[1-9]{1}[0-9]{7}$/.test(formValues.contact.phone)) {
+            errors.phone = "Por favor ingresa un número de teléfono válido";
+        }
+
+        if (!formValues.contact.email) {
+            errors.email = "Por favor ingresa un correo electrónico";
+        }
+
+        if (!formValues.contact.website) {
+            errors.website = "Por favor ingresa un sitio web";
+        }
+
+        setFormErrors(errors);
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault();
         console.log("CrearTour");
-
-        if (true) {
+        setFormErrors({});
+        validateForm();
+        if (Object.keys(formErrors).length === 0) {
             console.log(formValues);
 
             // Create a new FormData instance
@@ -142,6 +189,7 @@ function CrearTour(props) {
                             .then((res) => res.json())
                             .then((data) => {
                                 console.log(data);
+                                navigate("/Home");
                             });
 
                     } else {
@@ -201,6 +249,7 @@ function CrearTour(props) {
                         placeholder="Nombre"
                         onChange={handleChange}
                     />
+                    {formErrors.name && <div className="invalid-feedback">{formErrors.name}</div>}
                 </div>
                 <div className="form-group ">
                     <label htmlFor="images">Fotos</label>
@@ -211,12 +260,13 @@ function CrearTour(props) {
                         multiple
                         onChange={handleChangeImages}
                     />
-                    <label 
-                        htmlFor="images" 
+                    <text
+                        htmlFor="images"
                         className="upload-images-tour-label"
                     >
                         Subir fotos
-                    </label>
+                    </text>
+                    {formErrors.images && <div className="invalid-feedback">{formErrors.images}</div>}
                     <Carousel
                         className=""
                         showArrows={true}
@@ -243,11 +293,16 @@ function CrearTour(props) {
                         id="description"
                         name="description"
                         placeholder="Escibe una reseña del lugar"
-                        onChange={handleChangeCounter}
+                        onChange={(e) => {
+                            setCharCount(e.target.value.length);
+                            setFormValues({ ...formValues, description: e.target.value });
+                        }
+                        }
                         rows={7}
                         maxLength={500}
                     ></textarea>
                     <p className="char-counter">{charCount}/500</p>
+                    {formErrors.description && <div className="invalid-feedback">{formErrors.description}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="etiquetas">Etiquetas</label>
@@ -352,8 +407,9 @@ function CrearTour(props) {
                             <label className="form-check-label" htmlFor="isFree">Gratis</label>
                         </div>
                     </div>
+                    {formErrors.ammenities && <div className="invalid-feedback">{formErrors.ammenities}</div>}
                 </div>
-                
+
                 <div className="form-group">
                     <label htmlFor="location">Ubicación</label>
                     <LocationPicker setCoords={setCoords} />
@@ -378,6 +434,7 @@ function CrearTour(props) {
                         }}
                     ></textarea>
                     <p className="char-counter" >{addressCharCount}/200</p>
+                    {formErrors.address && <div className="invalid-feedback">{formErrors.address}</div>}
                 </div>
                 <div id="star-picker" className="form-group row">
                     <label htmlFor="stars">
@@ -403,8 +460,8 @@ function CrearTour(props) {
                                 />
                         ))}
                     </div>
-                        
-                
+
+
                 </div>
                 <h2>Información de contacto</h2>
                 <div className="form-group">
@@ -417,6 +474,7 @@ function CrearTour(props) {
                         pattern="[1-9]{1}[0-9]{7}"
                         onChange={handleChangeContact}
                     />
+                    {formErrors.phone && <div className="invalid-feedback">{formErrors.phone}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="email">Correo electrónico</label>
@@ -427,6 +485,7 @@ function CrearTour(props) {
                         placeholder="Correo electrónico"
                         onChange={handleChangeContact}
                     />
+                    {formErrors.email && <div className="invalid-feedback">{formErrors.email}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="website">Sitio web</label>
@@ -437,11 +496,12 @@ function CrearTour(props) {
                         placeholder="Sitio web"
                         onChange={handleChangeContact}
                     />
+                    {formErrors.website && <div className="invalid-feedback">{formErrors.website}</div>}
                 </div>
 
                 <div className="buttons">
-                    <button type="cancel" className="btn btn-secondary" onClick={handleCancel}>Cancelar</button>        
-                    <button type="submit" className="btn btn-primary">Crear</button>
+                    <button type="submit" className="btn btn-primary" >Crear Tour</button>
+                    <button type="cancel" className="btn btn-secondary" onClick={handleCancel}>Cancelar</button>
                 </div>
             </form>
         </div >

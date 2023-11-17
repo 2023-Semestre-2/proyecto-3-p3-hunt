@@ -12,7 +12,7 @@ function Footer({ user }) {
             <div className="footer-container">
                 <div className="footer-info">
                     <div className="footer-logo">
-                        <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" />
+                        <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo Touriza" />
                     </div>
                     <div className="footer-text">
                         <p>
@@ -35,13 +35,13 @@ function Footer({ user }) {
                 <div className="footer-socials">
                     <h2>Redes sociales</h2>
                     <div className="social-links">
-                        <a href="https://www.facebook.com/" >
+                        <a href="https://www.facebook.com/" aria-label="Facebook" >
                             <FontAwesomeIcon icon={faFacebookF} className="social-link" />
                         </a>
-                        <a href="https://www.instagram.com/" >
+                        <a href="https://www.instagram.com/"  aria-label="Instagram" >
                             <FontAwesomeIcon icon={faInstagram} className="social-link" />
                         </a>
-                        <a href="https://twitter.com/" >
+                        <a href="https://twitter.com/" aria-label="Twitter" >
                             <FontAwesomeIcon icon={faTwitter} className="social-link"/>
                         </a>
                     </div>

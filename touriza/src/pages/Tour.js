@@ -33,7 +33,7 @@ function Tour() {
     const [commentForm, setCommentForm] = useState({
         idUser: JSON.parse(localStorage.getItem('user')).idUser,
         idTour: tour.idTour,
-        stars: 0,
+        stars: 1,
         comment: "",
     });
 
@@ -239,9 +239,9 @@ function Tour() {
     }
 
     function getAsides() {
-        return(
+        return (
             <div className="asides-container">
-                    <aside className="aside-ubi-con" key={tour.idTour} >
+                <aside className="aside-ubi-con" key={tour.idTour} >
                     <article className="location">
                         <h2>Ubicacion</h2>
                         <LocationShower lat={locationTour.lat} lng={locationTour.lng} />
@@ -264,34 +264,34 @@ function Tour() {
                             {contact.website}
                         </p>
                     </article>
-                    </aside>
-                    <aside className="tags" key={tour.idTour}>
-                        <h2>Tags</h2>
+                </aside>
+                <aside className="tags" key={tour.idTour}>
+                    <h2>Tags</h2>
 
-                        <div className="tag-container">
-                            {Object.values(amenities)[2] !== 0 && <p className="tag">Hotel</p>}
-                            {Object.values(amenities)[3] !== 0 && <p className="tag">Restaurante</p>}
-                            {Object.values(amenities)[4] !== 0 && <p className="tag">Rio</p>}
-                            {Object.values(amenities)[5] !== 0 && <p className="tag">Playa</p>}
-                            {Object.values(amenities)[6] !== 0 && <p className="tag">Montaña</p>}
-                            {Object.values(amenities)[7] !== 0 && <p className="tag">Rancho</p>}
-                            {Object.values(amenities)[8] !== 0 && <p className="tag">Piscina</p>}
-                            {Object.values(amenities)[9] !== 0 && <p className="tag">Desayuno incluido</p>}
-                            {Object.values(amenities)[10] !== 0 && <p className="tag">Bar</p>}
-                            {Object.values(amenities)[11] !== 0 && <p className="tag">Wifi</p>}
-                            {Object.values(amenities)[12] !== 0 && <p className="tag">Fogata</p>}
-                            {Object.values(amenities)[13] !== 0 && <p className="tag">Parqueo</p>}
-                            {Object.values(amenities)[14] !== 0 && <p className="tag">Aire acondicionado</p>}
-                            {Object.values(amenities)[15] !== 0 && <p className="tag">Gimnacio</p>}
-                            {Object.values(amenities)[16] !== 0 && <p className="tag">Spa</p>}
-                            {Object.values(amenities)[17] !== 0 && <p className="tag">Servicio al cuarto</p>}
-                            {Object.values(amenities)[18] !== 0 && <p className="tag">Buena vista</p>}
-                            {Object.values(amenities)[19] !== 0 && <p className="tag">Accesible</p>}
-                            {Object.values(amenities)[20] !== 0 && <p className="tag">Se aceptan mascotas</p>}
-                            {Object.values(amenities)[21] !== 0 && <p className="tag">Gratis</p>}
-                        </div>
-                    </aside>
-                </div>
+                    <div className="tag-container">
+                        {Object.values(amenities)[2] !== 0 && <p className="tag">Hotel</p>}
+                        {Object.values(amenities)[3] !== 0 && <p className="tag">Restaurante</p>}
+                        {Object.values(amenities)[4] !== 0 && <p className="tag">Rio</p>}
+                        {Object.values(amenities)[5] !== 0 && <p className="tag">Playa</p>}
+                        {Object.values(amenities)[6] !== 0 && <p className="tag">Montaña</p>}
+                        {Object.values(amenities)[7] !== 0 && <p className="tag">Rancho</p>}
+                        {Object.values(amenities)[8] !== 0 && <p className="tag">Piscina</p>}
+                        {Object.values(amenities)[9] !== 0 && <p className="tag">Desayuno incluido</p>}
+                        {Object.values(amenities)[10] !== 0 && <p className="tag">Bar</p>}
+                        {Object.values(amenities)[11] !== 0 && <p className="tag">Wifi</p>}
+                        {Object.values(amenities)[12] !== 0 && <p className="tag">Fogata</p>}
+                        {Object.values(amenities)[13] !== 0 && <p className="tag">Parqueo</p>}
+                        {Object.values(amenities)[14] !== 0 && <p className="tag">Aire acondicionado</p>}
+                        {Object.values(amenities)[15] !== 0 && <p className="tag">Gimnacio</p>}
+                        {Object.values(amenities)[16] !== 0 && <p className="tag">Spa</p>}
+                        {Object.values(amenities)[17] !== 0 && <p className="tag">Servicio al cuarto</p>}
+                        {Object.values(amenities)[18] !== 0 && <p className="tag">Buena vista</p>}
+                        {Object.values(amenities)[19] !== 0 && <p className="tag">Accesible</p>}
+                        {Object.values(amenities)[20] !== 0 && <p className="tag">Se aceptan mascotas</p>}
+                        {Object.values(amenities)[21] !== 0 && <p className="tag">Gratis</p>}
+                    </div>
+                </aside>
+            </div>
         )
 
     }
@@ -309,7 +309,7 @@ function Tour() {
                             setIsFav(!isFav);
                         }}
                     ></i>
-                </div>    
+                </div>
             </div>
             <div className="tour-container">
                 <div className="tour-body">
@@ -330,7 +330,7 @@ function Tour() {
 
                             {images.map((image, index) => (
                                 <div key={index} >
-                                    
+
                                     <img
                                         className="selected-images"
                                         src={`${process.env.PUBLIC_URL}/uploads/tours/${image.picture}`}
@@ -392,6 +392,7 @@ function Tour() {
                                         </div>
                                         <div className="form-group">
                                             <textarea
+                                                aria-label="Escribe un comentario"
                                                 ref={textareaRef}
                                                 id="comment"
                                                 name="comment"
@@ -421,22 +422,23 @@ function Tour() {
                             .map((comment) => (
                                 <article className="comment" key={comment.idComment}>
                                     <img
+
                                         style={{ width: '70px' }}
                                         src={`${process.env.PUBLIC_URL}/uploads/pfp/${comment.profilePicture}`}
-                                        alt={comment.name}
+                                        alt={`Foto de perfil de ${comment.name}`}
                                         onClick={() => { goToProfile(comment.idUser) }}
                                     />
                                     <div className="comment-container">
                                         <div className="comment-header">
-                                            <p>{comment.name}</p>
-                                            <p>Publicado: {format(parseISO(comment.postDate), 'MM/dd/yyyy')}</p>
+                                            <header>{comment.name}</header>
+                                            <time dateTime={comment.postDate}>Publicado: {format(parseISO(comment.postDate), 'MM/dd/yyyy')}</time>
 
                                             <div className="tour-stars">
                                                 {[...Array(5)].map((star, index) => {
                                                     return index < comment.stars ? (
-                                                        <FaStar key={index} className="star" />
+                                                        <FaStar key={index} className="star" aria-label="Estrella-rellena" />
                                                     ) : (
-                                                        <FaRegStar key={index} className="reg-star" />
+                                                        <FaRegStar key={index} className="reg-star" aria-label="Estrella-vacía" />
                                                     );
                                                 })}
                                             </div>

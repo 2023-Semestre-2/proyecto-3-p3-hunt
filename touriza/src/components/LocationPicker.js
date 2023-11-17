@@ -76,7 +76,7 @@ function LocationPicker( props) {
         <label 
           className='search-place-label'
           htmlFor='search-place-input'>Nombre</label>
-        <input className='search-place-input' type="text" placeholder="Buscar lugar" />
+        <input aria-label='Buscar lugar' className='search-place-input' type="text" placeholder="Buscar lugar" />
         </>
       </StandaloneSearchBox>
       <GoogleMap

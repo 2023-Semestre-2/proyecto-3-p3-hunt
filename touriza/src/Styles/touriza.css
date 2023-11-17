@@ -22,6 +22,21 @@ code {
         monospace;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.invalid-feedback{
+    color: rgb(255, 0, 0,0.8);
+    font-size: 0.8rem;
+    font-weight: 400;
+}
 
 .navbar {
     background-color: #f2f2f2;
@@ -98,6 +113,7 @@ code {
     display: none;
     cursor: pointer;
     margin-left: auto;
+    background-color: #f2f2f2 !important;
 }
 
 
@@ -107,11 +123,11 @@ code {
 }
 
 .navbar .nav-link.active {
-    color: #007bff;
+    color: #0060f0
 }
 
 .navbar button {
-    background-color: #007bff;
+    background-color: #0060f0;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;

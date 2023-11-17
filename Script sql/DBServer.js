@@ -53,8 +53,8 @@ app.post('/login', async (req, res) => {
   connection.query(sqlSelect, [email], (err, result) => {
     if (err) {
       console.log(err);
-      console.log('Wrong email or password');
-      res.status(400).json({code:400,  message: 'Wrong email or password' });
+      console.log('Email o contraseña incorrectos');
+      res.status(400).json({code:400,  message: 'Email o contraseña incorrectos' });
     } else {
       if (result.length > 0) {
         const user = result[0];
@@ -63,14 +63,14 @@ app.post('/login', async (req, res) => {
             console.log('User logged in');
             res.status(200).json({code:200, message: 'User logged in', user: result[0] });
           } else {
-            console.log('Wrong email or password');
-            res.status(400).json({code:400, message: 'Wrong email or password' });
+            console.log('Email o contraseña incorrectos');
+            res.status(400).json({code:400, message: 'Email o contraseña incorrectos' });
           }
         });
 
       } else {
-        console.log('Wrong email or password');
-        res.status(400).json({code:400, message: 'Wrong email or password' });
+        console.log('Email o contraseña incorrectos');
+        res.status(400).json({code:400, message: 'Email o contraseña incorrectos' });
       }
     }
   });

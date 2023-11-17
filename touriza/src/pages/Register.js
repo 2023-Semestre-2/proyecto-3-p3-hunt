@@ -1,3 +1,4 @@
+import { set } from "date-fns";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +26,9 @@ function Register() {
     function handelSubmit(e) {
         e.preventDefault();
         console.log("Register");
-
-        if (true) {
+        setFormErrors({});
+        validateForm(formValues);
+        if (Object.keys(formErrors).length === 0) {
             //register the user
             console.log(formValues);
 
@@ -60,37 +62,45 @@ function Register() {
         let errors = {};
         //name errors
         if (!values.name) {
-            errors.name = "Name is required";
+            errors.name = " *Por favor ingresa tu nombre";
         }
         //lastname errors
         if (!values.lastname) {
-            errors.lastname = "Lastname is required";
+            errors.lastname = "*Por favor ingresa tus apellidos";
         }
         //email errors
         if (!values.email) {
-            errors.email = "Email is required";
+            errors.email = "*Por favor ingresa tu correo electrónico";
         } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-            errors.email = "Email is invalid";
+            errors.email = "*Correo electrónico inválido";
         }
         //phone errors
         if (!values.phone) {
-            errors.phone = "Phone is required";
-        } else if (values.phone.length < 10) {
-            errors.phone = "Phone must be at least 10 characters";
+            errors.phone = "*Por favor ingresa tu teléfono";
+        } else if (!/^[1-9]{1}[0-9]{7}$/.test(values.phone)) {
+            errors.phone = "*Teléfono inválido";
         }
+        
         //password errors
         if (!values.password) {
-            errors.password = "Password is required";
+            errors.password = "*Por favor ingresa tu contraseña";
         } else if (values.password.length < 6) {
-            errors.password = "Password must be at least 6 characters";
+            errors.password = "*La contraseña debe tener al menos 6 caracteres";
         }
         //password2 errors
         if (!values.password2) {
-            errors.password2 = "Password is required";
+            errors.password2 = "*Por favor confirma tu contraseña";
         } else if (values.password2 !== values.password) {
-            errors.password2 = "Passwords do not match";
+            errors.password2 = " *Las contraseñas no coinciden";
         }
-        return errors;
+
+        if (!values.profilePic) {
+            errors.profilePic = "*Por favor sube una foto de perfil";
+        }
+
+        console.log("check errors");
+        console.log(errors);
+        setFormErrors(errors);
     }
 
     function handleChange(e) {
@@ -135,8 +145,8 @@ function Register() {
                                 style={{ display: 'none' }}
                             />
                         </label>
+                        <div className="invalid-feedback">{formErrors.profilePic}</div>
                     </div>
-                    {/*name*/}
                     <div className="col">
                         <div className="form-group-a">
                             <label htmlFor="name">Nombre</label>
@@ -150,10 +160,10 @@ function Register() {
                                 onChange={(e) =>
                                     setFormValues({ ...formValues, name: e.target.value })
                                 }
+                                maxLength={45}
                             />
                             <div className="invalid-feedback">{formErrors.name}</div>
                         </div>
-                        {/*lastname*/}
                         <div className="form-group-a">
                             <label htmlFor="lastname">Apellidos</label>
                             <input
@@ -166,6 +176,7 @@ function Register() {
                                 onChange={(e) =>
                                     setFormValues({ ...formValues, lastname: e.target.value })
                                 }
+                                maxLength={45}
                             />
                             <div className="invalid-feedback">{formErrors.lastname}</div>
                         </div>
@@ -184,6 +195,7 @@ function Register() {
                         onChange={(e) =>
                             setFormValues({ ...formValues, email: e.target.value })
                         }
+                        maxLength={45}
                     />
                     <div className="invalid-feedback">{formErrors.email}</div>
                 </div>
@@ -191,7 +203,7 @@ function Register() {
                 <div className="form-group-a">
                     <label htmlFor="phone">Teléfono</label>
                     <input
-                        type="text"
+                        type="number"
                         className={`form-control ${formErrors.phone && "is-invalid"}`}
                         id="phone"
                         name="phone"
@@ -200,6 +212,7 @@ function Register() {
                         onChange={(e) =>
                             setFormValues({ ...formValues, phone: e.target.value })
                         }
+                        minLength={8}
                     />
                     <div className="invalid-feedback">{formErrors.phone}</div>
                 </div>

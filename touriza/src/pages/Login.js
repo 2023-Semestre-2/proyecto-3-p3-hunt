@@ -1,3 +1,4 @@
+import { set } from "date-fns";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,7 @@ function Login(props) {
         email: "",
         password: "",
     });
+    const [formErrors, setFormErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -18,33 +20,47 @@ function Login(props) {
 
         //login the user
         console.log(formValues);
-        fetch("http://localhost:3000/login", {
-            method: "POST",
-            body: JSON.stringify(formValues),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                    console.log(data);
-                    if (data.code === 200) {
-                        let user = data.user;
-                        delete user.password;
-                        props.onLogin(user);
-
-                        
-                        navigate("/Home");
-                    } else {
-                        console.log(data.message);
-                    }
-                
+        setFormErrors({});
+        validateForm();
+        if (Object.keys(formErrors).length === 0) {
+            fetch("http://localhost:3000/login", {
+                method: "POST",
+                body: JSON.stringify(formValues),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                        console.log(data);
+                        if (data.code === 200) {
+                            let user = data.user;
+                            delete user.password;
+                            props.onLogin(user);                 
+                            navigate("/Home");
+                        } else {
+                            setFormErrors({ email: data.message });
+                        }      
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+    }
+
+    function validateForm() {
+        let errors = {};
+
+        if (!formValues.email) {
+            errors.email = "Por favor ingresa tu correo electrónico";
+        }
+
+        if (!formValues.password) {
+            errors.password = "Por favor ingresa tu contraseña";
+        }
 
 
+        setFormErrors(errors);
     }
 
     function handleChange(e) {
@@ -67,6 +83,8 @@ function Login(props) {
                             placeholder="Ingresa tu correo electrónico"
                             onChange={handleChange}
                         />
+                        {formErrors.email && <div className="invalid-feedback">{formErrors.email}</div>}
+
                     </div>
                     {/*password*/}
                     <div className="form-group-a">
@@ -80,6 +98,7 @@ function Login(props) {
                             onChange={handleChange}
                             
                         />
+                        {formErrors.password && <div className="invalid-feedback">{formErrors.password}</div>}
                     </div>
                     <button 
                         type="submit" 

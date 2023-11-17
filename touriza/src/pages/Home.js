@@ -7,7 +7,7 @@ function Home() {
 
     const [tours, setTours] = useState([]);
     const [filteredTours, setFilteredTours] = useState(tours);
-    const [filters, setFilters] = useState({ stars: '', type: [], amenities: [] });
+    const [filters, setFilters] = useState({ stars: 1, type: [], amenities: [] });
     const [search, setSearch] = useState('');
     const [showFilters, setShowFilters] = useState(false);
     useEffect(() => {
@@ -78,7 +78,8 @@ function Home() {
         <div className="Home-page" >
             <div className="Home-header">
             <h1 className="page-title" >Tours</h1>
-            <button className="burger-button" onClick={toggleFilters}>
+            <button aria-label="Desplegar filtros" className="burger-button" onClick={toggleFilters}>
+                
                 <FaBars />
             </button>
             </div>
@@ -199,7 +200,7 @@ function Home() {
                 </section>
                 <section className="tours">
                     <form className="search-form" onSubmit={e => e.preventDefault()}>
-                        <input type="text" className="search-input" placeholder="Buscar..." value={search} onChange={handleSearchChange} />
+                        <input aria-label="Buscar tours" type="text" className="search-input" placeholder="Buscar..." value={search} onChange={handleSearchChange} />
                         <button type="submit" className="search-btn">
                             Buscar
                             < i className="fi fi-rr-search"></i>
@@ -215,7 +216,7 @@ function Home() {
                             <img
                                 className="tour-img"
                                 src={`${process.env.PUBLIC_URL}/uploads/tours/${tour.image}`}
-                                alt={tour.name} />
+                                alt={`Portada ${tour.name}`} />
                             <div className="tour-info">
                                 <div className="tour-header">
                                     <h2 className="tour-name">{tour.name}</h2>

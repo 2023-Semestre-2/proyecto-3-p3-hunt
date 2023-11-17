@@ -21,34 +21,34 @@ function NavBar({user, logout, trigger }) {
 
 
     return (
-        <nav className='navbar' >
+        <nav className='navbar' aria-label='Navegación principal' >
             <div className="navbar-container">
                 <Link to="/" className="navbar-brand">
-                    <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo" />
+                    <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="logo Touriza" />
                 </Link>
 
-                <div className="hamburger-icon" onClick={toggleSidebar}>
+                <button className="hamburger-icon" onClick={toggleSidebar} tabIndex="0" aria-label='Desplegar navbar' >
                     <div></div>
                     <div></div>
                     <div></div>
-                </div>
+                </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav sidebar">
                         {user ? (
                             <>
-                                <NavLink to="/Home" className="nav-link">Tours</NavLink>
-                                <NavLink to="/CrearTour" className="nav-link">Crear Tour</NavLink>
-                                <NavLink to="/Favourites" className="nav-link">Favoritos</NavLink>
+                                <NavLink to="/Home" className="nav-link" aria-label='Ir a inicio'  >Tours</NavLink>
+                                <NavLink to="/CrearTour" className="nav-link" aria-label='Ir a crear tour' >Crear Tour</NavLink>
+                                <NavLink to="/Favourites" className="nav-link" aria-label='Ir a favoritos'>Favoritos</NavLink>
 
                                 <div class="dropdown">
-                                    <NavLink to={`/Profile/${user.idUser}`} className="nav-link">
+                                    <NavLink to={`/Profile/${user.idUser}`} className="nav-link" aria-label='Ir a mi perfil'>
                                         <img
                                             className="profile-picture dropbtn"
                                             src={`${process.env.PUBLIC_URL}/uploads/pfp/${user.profilePicture}`}
                                             alt="foto de perfil" />
                                     </NavLink>
                                     <div class="dropdown-content">
-                                        <NavLink to={`/Profile/${user.idUser}`} className="drop-link">
+                                        <NavLink to={`/Profile/${user.idUser}`} className="drop-link" aria-label='Ir a mi perfil'>
                                             Perfil
                                         </NavLink>
                                         <button 
