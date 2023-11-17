@@ -260,12 +260,12 @@ function CrearTour(props) {
                         multiple
                         onChange={handleChangeImages}
                     />
-                    <text
+                    <label
                         htmlFor="images"
                         className="upload-images-tour-label"
                     >
                         Subir fotos
-                    </text>
+                    </label>
                     {formErrors.images && <div className="invalid-feedback">{formErrors.images}</div>}
                     <Carousel
                         className=""

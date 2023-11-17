@@ -58,8 +58,8 @@ function Profile({ updateProfile }) {
                             <div className="stat-group">
                                 <label>
                                     {
-                                        userInformation.numberOfPost ?
-                                            userInformation.numberOfPost
+                                        userInformation.numberOfPosts ?
+                                            userInformation.numberOfPosts
                                             : 0
                                     }
                                 </label>

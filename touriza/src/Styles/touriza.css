@@ -376,6 +376,7 @@ input[type="number"] {
     width: 200px;
     height: 200px;
     border-radius: 50%;
+    object-fit: contain;
 }
 
 
@@ -400,7 +401,7 @@ input[type="number"] {
 
 .Favourites-page .tours{
     width: 100%;
-    min-height: 70vh;
+    height: fit-content;
 }
 
 .page-title{
@@ -423,7 +424,7 @@ input[type="number"] {
     display: flex;
     flex-direction: column;
     width: 25%;
-    height: 100%;
+    height: fit-content;
     margin: 0 1rem 0 0;
     padding: 0 0 1rem 0;
     background-color: #fff;
